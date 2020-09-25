@@ -102,14 +102,14 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$junit_androidx_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_version"
-    androidTestImplementation "androidx.test:runner:1.1.1"
+    androidTestImplementation "androidx.test:runner:$test_runner_version"
     androidTestImplementation "de.mannodermaus.junit5:android-test-core:1.0.0"
 
     // --- JUnit 5 --- //
 
     androidTestImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
-    androidTestImplementation "de.mannodermaus.junit5:android-test-core:1.0.0"
-    androidTestRuntimeOnly "de.mannodermaus.junit5:android-test-runner:1.0.0"
+    androidTestImplementation "de.mannodermaus.junit5:android-test-core:$junut5_core_version"
+    androidTestRuntimeOnly "de.mannodermaus.junit5:android-test-runner:$junit5_runner_version"
 }
 
 kapt {
