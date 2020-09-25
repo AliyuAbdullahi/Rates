@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'de.mannodermaus.android-junit5'
 
 android {
     compileSdkVersion 30
@@ -16,11 +17,17 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    // JUnit 5 will bundle in files with identical paths; exclude them
+    packagingOptions {
+        exclude "META-INF/LICENSE*"
     }
 
     buildTypes {
@@ -91,9 +98,18 @@ dependencies {
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
 
     // --- Unit And Instrumentation Test --- //
+
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$junit_androidx_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_version"
+    androidTestImplementation "androidx.test:runner:1.1.1"
+    androidTestImplementation "de.mannodermaus.junit5:android-test-core:1.0.0"
+
+    // --- JUnit 5 --- //
+
+    androidTestImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
+    androidTestImplementation "de.mannodermaus.junit5:android-test-core:1.0.0"
+    androidTestRuntimeOnly "de.mannodermaus.junit5:android-test-runner:1.0.0"
 }
 
 kapt {
