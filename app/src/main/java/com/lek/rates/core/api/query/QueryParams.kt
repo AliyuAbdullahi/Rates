@@ -1,7 +1,5 @@
-package com.lek.rates.core.services
+package com.lek.rates.core.api.query
 
 object QueryParams {
-    object GetCurrencies {
-        const val BASE = "base"
-    }
+    const val BASE = "base"
 }
