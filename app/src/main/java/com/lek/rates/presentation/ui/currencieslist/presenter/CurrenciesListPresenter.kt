@@ -10,7 +10,7 @@ import com.lek.rates.presentation.ui.currencieslist.view.RatesListView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class RatesListPresenter @ViewModelInject constructor(
+class CurrenciesListPresenter @ViewModelInject constructor(
     private val getCurrenciesInteractor: GetCurrenciesInteractor,
     private val pollingService: CurrenciesPollingService,
     private val currenciesRelay: CurrenciesRelay
@@ -30,6 +30,7 @@ class RatesListPresenter @ViewModelInject constructor(
                     view()?.displayRate(currencies)
                 }, {
                     Log.e("ERROR", it.localizedMessage ?: "Unknown")
+                    view()?.showError("${it.message}")
                 })
         )
     }

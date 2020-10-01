@@ -1,23 +1,37 @@
 package com.lek.rates.core.di
 
-import android.content.Context
-import com.lek.rates.core.repository.IRatesRepository
-import com.lek.rates.core.repository.RatesRepository
-import com.lek.rates.presentation.rateslist.interactors.GetRatesInteractor
+import com.lek.rates.core.api.services.CurrenciesService
+import com.lek.rates.core.data.DataChangedObservable
+import com.lek.rates.core.data.FetchedRates
+import com.lek.rates.core.repository.ICurrenciesRepository
+import com.lek.rates.core.repository.CurrenciesRepository
+import com.lek.rates.presentation.ui.currencieslist.CanPublishCurrenciesRelay
+import com.lek.rates.presentation.ui.currencieslist.CurrenciesRelay
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 
 @Module
-@InstallIn(ActivityComponent::class)
-object RatesListModule {
+@InstallIn(SingletonComponent::class)
+object RatesRepositoryModule {
 
     @Provides
-    fun provideGetRatesInteractor() = GetRatesInteractor()
+    fun provideRatesRepository(
+        currenciesService: CurrenciesService,
+        dataChangedObservable: DataChangedObservable,
+        fetchedRate: FetchedRates
+    ): ICurrenciesRepository = CurrenciesRepository(currenciesService, dataChangedObservable, fetchedRate)
 
     @Provides
-    fun provideRatesRepository(@ApplicationContext context: Context): IRatesRepository =
-        RatesRepository()
+    fun provideFetchedRates(): FetchedRates = FetchedRates()
+
+    @Provides
+    fun provideDataChangedObservable(): DataChangedObservable = DataChangedObservable()
+
+    @Provides
+    fun provideCurrenciesRelay(): CurrenciesRelay = CurrenciesRelay()
+
+    @Provides
+    fun provideCanPublishCurrenciesRelay(): CanPublishCurrenciesRelay = CanPublishCurrenciesRelay()
 }

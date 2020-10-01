@@ -5,7 +5,7 @@ import com.lek.rates.core.repository.ICurrenciesRepository
 import com.lek.rates.presentation.helper.FirstResponderFactory
 import io.reactivex.rxjava3.core.Observable
 
-class GetRatesInteractor(
+class GetCurrenciesInteractor(
     private val currenciesRepository: ICurrenciesRepository,
     private val firstResponderFactory: FirstResponderFactory
 ) {

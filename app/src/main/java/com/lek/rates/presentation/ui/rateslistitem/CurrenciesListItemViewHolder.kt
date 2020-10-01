@@ -1,6 +1,7 @@
 package com.lek.rates.presentation.ui.rateslistitem
 
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -8,9 +9,9 @@ import com.lek.rates.R
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 
-class RatesListItemViewHolder(
+class CurrenciesListItemViewHolder(
     private val view: View
-) : RecyclerView.ViewHolder(view), RatesListItemView, Disposable {
+) : RecyclerView.ViewHolder(view), CurrenciesListItemView, Disposable {
 
     private val compositeDisposable = CompositeDisposable()
 
@@ -24,6 +25,10 @@ class RatesListItemViewHolder(
 
     override fun setCurrencyCode(currencyCode: String) {
         view.findViewById<TextView>(R.id.currencyAbbreviation).apply { text = currencyCode }
+    }
+
+    override fun setCurrencyValue(currencyValue: Double) {
+        view.findViewById<EditText>(R.id.currencyValue).apply { setText("$currencyValue") }
     }
 
     override fun isDisposed(): Boolean {

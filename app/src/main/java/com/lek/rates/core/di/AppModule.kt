@@ -2,7 +2,7 @@ package com.lek.rates.core.di
 
 import com.lek.rates.BuildConfig
 import com.lek.rates.BuildConfig.BASE_URL
-import com.lek.rates.core.api.services.RatesApiService
+import com.lek.rates.core.api.services.CurrenciesService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -54,6 +54,6 @@ object AppModule {
             .build()
 
     @Provides
-    fun provideApiService(retrofit: Retrofit): RatesApiService =
-        retrofit.create(RatesApiService::class.java)
+    fun provideApiService(retrofit: Retrofit): CurrenciesService =
+        retrofit.create(CurrenciesService::class.java)
 }

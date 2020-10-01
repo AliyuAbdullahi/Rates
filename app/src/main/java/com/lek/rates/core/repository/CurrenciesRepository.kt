@@ -8,13 +8,13 @@ import com.lek.rates.core.models.CurrenciesResponse
 import com.lek.rates.core.models.CurrenciesResponseMapper
 import io.reactivex.rxjava3.core.Observable
 
-class RatesRepository(
+class CurrenciesRepository(
     private val currenciesService: CurrenciesService,
     private val dataChangedObservable: DataChangedObservable,
     private val fetchedRate: FetchedRates
-) : IRatesRepository {
+) : ICurrenciesRepository {
 
-    override fun getRates(baseCurrency: String): Observable<List<Currency>> {
+    override fun getCurrencies(baseCurrency: String): Observable<List<Currency>> {
         return currenciesService.getLatestCurrencyRates(baseCurrency)
             .flatMap {
                 checkIfDataIsSameAsFetched(it)
@@ -23,7 +23,7 @@ class RatesRepository(
     }
 
     private fun checkIfDataIsSameAsFetched(it: CurrenciesResponse) {
-        dataChangedObservable.setDataChanged(fetchedRate.rates != it)
-        fetchedRate.rates = it
+        dataChangedObservable.setDataChanged(fetchedRate.get() != it)
+        fetchedRate.set(it)
     }
 }
