@@ -20,9 +20,18 @@ android {
         testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
     }
 
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 
     // JUnit 5 will bundle in files with identical paths; exclude them
@@ -97,21 +106,27 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
 
-    // --- Unit And Instrumentation Test --- //
+    // --- Unit Test --- //
 
-    testImplementation "junit:junit:$junit_version"
-    androidTestImplementation "androidx.test.ext:junit:$junit_androidx_version"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$androidx_espresso_version"
-    androidTestImplementation "androidx.test:runner:$test_runner_version"
-    androidTestImplementation "de.mannodermaus.junit5:android-test-core:1.0.0"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junit5_version"
 
-    // --- JUnit 5 --- //
+    // --- Instrumentation Test --- //
 
     androidTestImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
     androidTestImplementation "de.mannodermaus.junit5:android-test-core:$junut5_core_version"
     androidTestRuntimeOnly "de.mannodermaus.junit5:android-test-runner:$junit5_runner_version"
+
+    // --- Mockk --- //
+    testImplementation "io.mockk:mockk:$mockk_version"
+    androidTestImplementation "io.mockk:mockk-android:$mockk_version"
 }
 
 kapt {
     correctErrorTypes true
+}
+
+kapt {
+    generateStubs = true
 }

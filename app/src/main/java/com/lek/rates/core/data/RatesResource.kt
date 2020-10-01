@@ -1,0 +1,56 @@
+package com.lek.rates.core.data
+
+import androidx.annotation.DrawableRes
+import com.lek.rates.R
+
+fun currencyAndFlags() = hashMapOf(
+    "aud" to Currency("Australian Dollar", "aud", R.drawable.aud),
+    "bgn" to Currency("Bulgarian Lev", "bgn", R.drawable.bgn),
+    "brl" to Currency("Brazilian Real", "brl", R.drawable.brl),
+    "cad" to Currency("Canadian Dollar", "cad", R.drawable.cad),
+    "chf" to Currency("Swiss Franc", "chf", R.drawable.chf),
+    "cny" to Currency("Yuan Renminbi", "cny", R.drawable.cny),
+    "cop" to Currency("Colombian Peso", "cop", R.drawable.cop),
+    "crc" to Currency("Costa Rican Colon", "crc", R.drawable.crc),
+    "cuc" to Currency("Peso Convertible", "cuc", R.drawable.cuc),
+    "czk" to Currency("Czech Koruna", "czk", R.drawable.czk),
+    "dkk" to Currency("Danish Krone", "dkk", R.drawable.dkk),
+    "dop" to Currency("Dominican Peso", "dop", R.drawable.dop),
+    "egp" to Currency("Egyptian Pound", "egp", R.drawable.egp),
+    "eur" to Currency("Euro", "eur", R.drawable.eur),
+    "fjd" to Currency("Fiji Dollar", "fjd", R.drawable.fjd),
+    "gbp" to Currency("Pound Sterling", "gpb", R.drawable.gbp),
+    "hkd" to Currency("Hong Kong Dollar", "hkd", R.drawable.hkd),
+    "hrk" to Currency("Kuna", "hrk", R.drawable.hrk),
+    "huf" to Currency("Forint", "huf", R.drawable.huf),
+    "idr" to Currency("Rupiah", "idr", R.drawable.idr),
+    "ils" to Currency("New Israeli Sheqel", "ils", R.drawable.ils),
+    "inr" to Currency("Indian Rupee", "inr", R.drawable.inr),
+    "isk" to Currency("Iceland Krona", "isk", R.drawable.isk),
+    "jpy" to Currency("Japanese Yen", "jpy", R.drawable.jpy),
+    "kmf" to Currency("Comoro Franc", "kmf", R.drawable.kmf),
+    "kpw" to Currency("North Korean Won", "kpw", R.drawable.kpw),
+    "krw" to Currency("South Korean Won", "krw", R.drawable.krw),
+    "kwd" to Currency("Kuwaiti Dinar", "kwd", R.drawable.kwd),
+    "lbp" to Currency("Lebanese Pound", "lbp", R.drawable.lbp),
+    "mxn" to Currency("Mexican Peso", "mxn", R.drawable.default_flag),
+    "mxv" to Currency("Mexican Unidad de Inversion", "mxv", R.drawable.mxv),
+    "myr" to Currency("Malaysian Ringgit", "myr", R.drawable.myr),
+    "ngn" to Currency("Naira", "ngn", R.drawable.ngn),
+    "nok" to Currency("Norwegian Krone", "nok", R.drawable.nok),
+    "npr" to Currency("Nepalese Rupee", "npr", R.drawable.npr),
+    "nzd" to Currency("New Zealand Dollar", "nzd", R.drawable.nzd),
+    "php" to Currency("Philippine Peso", "php", R.drawable.php),
+    "pln" to Currency("Zloty", "pln", R.drawable.pln),
+    "ron" to Currency("Romanian Leu", "ron", R.drawable.ron),
+    "rub" to Currency("Russian Ruble", "rub", R.drawable.rub),
+    "sek" to Currency("Swedish Krona", "sek", R.drawable.sek),
+    "sgd" to Currency("Singapore Dollar", "sgd", R.drawable.sgd),
+    "thb" to Currency("Baht", "thb", R.drawable.thb),
+    "usd" to Currency("US Dollar", "usd", R.drawable.usd),
+    "xaf" to Currency("CFA Franc BEAC", "xaf", R.drawable.xaf),
+    "xof" to Currency("CFA Franc BCEAO", "xof", R.drawable.xof),
+    "zar" to Currency("Rand", "zar", R.drawable.zar)
+)
+
+data class Currency(val fullName: String, val abbreviation: String, @DrawableRes val flag: Int)
