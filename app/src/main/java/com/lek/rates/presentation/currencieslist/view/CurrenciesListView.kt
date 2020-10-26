@@ -14,14 +14,12 @@ import androidx.lifecycle.Lifecycle
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.lek.rates.R
 import com.lek.rates.core.data.CurrenciesCache
-import com.lek.rates.core.data.CurrencyEditDispatcher
+import com.lek.rates.core.models.*
 import com.lek.rates.core.models.Currency
-import com.lek.rates.core.models.ExchangeRateEvaluator
-import com.lek.rates.core.models.FirstResponder
 import com.lek.rates.extensions.isNotSameAs
 import com.lek.rates.extensions.toThreeDecimalPlace
-import com.lek.rates.presentation.rateslistitem.presenter.ListItemPresenter
-import com.lek.rates.presentation.currencieslist.presenter.ListPresenter
+import com.lek.rates.presentation.rateslistitem.presenter.CurrenciesListItemPresenter
+import com.lek.rates.presentation.currencieslist.presenter.CurrenciesListPresenter
 import com.lek.rates.presentation.rateslistitem.view.CurrenciesListItemView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -35,8 +33,8 @@ private const val DELAY_MILLIS = 100L
 class CurrenciesListView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
-    defStyle: Int = 0
-) : ScrollView(context, attributeSet, defStyle), MainView {
+    defStyle: Int = ZERO.toInt()
+) : ScrollView(context, attributeSet, defStyle), ListView {
 
     private var items = LinkedList<Currency>()
 
@@ -44,11 +42,11 @@ class CurrenciesListView @JvmOverloads constructor(
 
     private var mScrollChecker: Runnable? = null
 
-    private var mPreviousPosition = 0
+    private var mPreviousPosition = ZERO.toInt()
 
-    lateinit var presenter: ListPresenter
+    lateinit var presenterCurrencies: CurrenciesListPresenter
 
-    lateinit var listItemPresenter: ListItemPresenter
+    lateinit var currenciesListItemPresenter: CurrenciesListItemPresenter
 
     lateinit var lifeCycle: Lifecycle
 
@@ -66,12 +64,6 @@ class CurrenciesListView @JvmOverloads constructor(
                 postDelayed(mScrollChecker, DELAY_MILLIS)
             }
         }
-
-        CurrencyEditDispatcher.accept = {
-            val current = mutableListOf<Currency>()
-            current.addAll(CurrenciesCache.get())
-            updateCurrencyValues(it, current)
-        }
     }
 
     private fun updateCurrencyValues(
@@ -79,14 +71,7 @@ class CurrenciesListView @JvmOverloads constructor(
         currentCurrencies: MutableList<Currency>
     ) {
         if (currentValue.isBlank()) {
-            findViewById<LinearLayout>(R.id.currenciesListContainer).forEach { view ->
-                val currencyCode =
-                    (view as CurrenciesListItemView).findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
-                if (!currencyCode.equals(ExchangeRateEvaluator.currencyCode, true)) {
-                    view.findViewById<TextView>(R.id.currencyValue)
-                        .setText(context.getString(R.string.currency_value, ""))
-                }
-            }
+            setValuesToBlank()
         } else {
             currentCurrencies.forEach { currency ->
                 if (currency.currencyCode isNotSameAs ExchangeRateEvaluator.currencyCode) {
@@ -95,22 +80,26 @@ class CurrenciesListView @JvmOverloads constructor(
             }
             val currencyMap = currentCurrencies.map { it.currencyCode to it }.toMap()
             findViewById<LinearLayout>(R.id.currenciesListContainer).forEach { view ->
-                val currencyCode =
-                    (view as CurrenciesListItemView).findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
+                val currencyCode = (view as CurrenciesListItemView).findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
                 currencyMap[currencyCode]?.let {
                     view.findViewById<EditText>(R.id.currencyValue).apply {
-                        setText(
-                            context.getString(
-                                R.string.currency_value,
-                                "${it.value.toThreeDecimalPlace()}"
-                            )
-                        )
+                        setText(context.getString(R.string.currency_value, "${it.value.toThreeDecimalPlace()}"))
                     }
                 }
             }
         }
     }
 
+    private fun setValuesToBlank() {
+        findViewById<LinearLayout>(R.id.currenciesListContainer).forEach { view ->
+            val currencyCode =
+                (view as CurrenciesListItemView).findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
+            if (!currencyCode.equals(ExchangeRateEvaluator.currencyCode, true)) {
+                view.findViewById<TextView>(R.id.currencyValue)
+                    .setText(context.getString(R.string.currency_value, ""))
+            }
+        }
+    }
 
     private fun setFirstResponder(currency: Currency) {
         items.remove(currency)
@@ -184,17 +173,17 @@ class CurrenciesListView @JvmOverloads constructor(
                     disposable.add(
                         (view as EditText).textChanges()
                             .skipInitialValue()
-                            .debounce(300, TimeUnit.MILLISECONDS)
+                            .debounce(Interval.SHORT, TimeUnit.MILLISECONDS)
                             ?.map { text -> text.toString() }
                             ?.flatMap { changedValue ->
-                                Observable.just(CurrencyData(changedValue, Keyboard.isOpened))
+                                Observable.just(CurrencyValue(changedValue, Keyboard.isOpened))
                             }
                             ?.subscribeOn(Schedulers.io())
                             ?.observeOn(AndroidSchedulers.mainThread())
                             ?.subscribe({ changedValue ->
                                 if (changedValue.keyboardOpened) {
                                     dispatched = true
-                                    updateData(changedValue.value, currency)
+                                    updateCurrencyValues(changedValue.value, currency)
                                 }
                             }, {
                                 Log.e("ERROR", "ERROR $it")
@@ -205,9 +194,9 @@ class CurrenciesListView @JvmOverloads constructor(
         }
     }
 
-    private fun updateData(changedValue: String, currentCurrency: Currency) {
+    private fun updateCurrencyValues(changedValue: String, currentCurrency: Currency) {
         val container = this@CurrenciesListView.findViewById<LinearLayout>(R.id.currenciesListContainer)
-        if (changedValue.isEmpty() || changedValue.toDouble() == 0.0) {
+        if (changedValue.isEmpty() || changedValue.toDouble() == ZERO) {
             setEmptyValueState(container, currentCurrency)
         } else {
             setEquivalentCurrencyValues(changedValue, currentCurrency, container)
@@ -224,13 +213,11 @@ class CurrenciesListView @JvmOverloads constructor(
             val map = mutableMapOf<String, Currency>()
             map.putAll(CurrenciesCache.getCache())
             val currentView = container.getChildAt(index)
-            val currencyCode =
-                currentView.findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
+            val currencyCode = currentView.findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
             if (currencyCode.equals(currentCurrency.currencyCode, true).not()) {
                 map[currencyCode]?.let { theCurrency ->
                     theCurrency.value = (theCurrency.value * multiplier).toThreeDecimalPlace()
-                    currentView.findViewById<EditText>(R.id.currencyValue)
-                        .setText(context.getString(R.string.currency_value, theCurrency.value))
+                    currentView.findViewById<EditText>(R.id.currencyValue).setText(context.getString(R.string.currency_value, theCurrency.value))
                 }
             }
         }
@@ -242,10 +229,9 @@ class CurrenciesListView @JvmOverloads constructor(
     ) {
         for (index in 0 until container.childCount) {
             val currentView = container.getChildAt(index)
-            val currencyCode =
-                currentView.findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
+            val currencyCode = currentView.findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
             if (currencyCode.equals(currentCurrency.currencyCode, true).not()) {
-                currentView.findViewById<EditText>(R.id.currencyValue).setText("")
+                currentView.findViewById<EditText>(R.id.currencyValue).setText(EMPTY_STRING)
             }
         }
     }
@@ -255,8 +241,8 @@ class CurrenciesListView @JvmOverloads constructor(
         currency: Currency
     ) = view.apply {
         tag = currency.currencyCode
-        listItemPresenter.attachView(this, lifeCycle)
-        listItemPresenter.bindCurrencyToView(currency)
+        currenciesListItemPresenter.attachView(this, lifeCycle)
+        currenciesListItemPresenter.bindCurrencyToView(currency)
     }
 
     override fun showError(message: String) {
@@ -279,4 +265,4 @@ class CurrenciesListView @JvmOverloads constructor(
     }
 }
 
-private data class CurrencyData(val value: String, val keyboardOpened: Boolean)
+private data class CurrencyValue(val value: String, val keyboardOpened: Boolean)

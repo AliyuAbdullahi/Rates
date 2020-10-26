@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import com.lek.rates.core.base.BasePresenter
 import com.lek.rates.core.models.Currency
+import com.lek.rates.core.models.Interval
 import com.lek.rates.presentation.currencieslist.interactors.CurrenciesPollingService
 import com.lek.rates.presentation.currencieslist.interactors.GetCanPublishLiveUpdateInteractor
 import com.lek.rates.presentation.currencieslist.interactors.GetCurrenciesInteractor
@@ -17,17 +18,15 @@ import io.reactivex.rxjava3.functions.BiFunction
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class ListPresenter @ViewModelInject constructor(
+class CurrenciesListPresenter @ViewModelInject constructor(
     private val getCurrenciesInteractor: GetCurrenciesInteractor,
     private val pollingService: CurrenciesPollingService,
-    private val getCanPublishLiveUpdateInteractor: GetCanPublishLiveUpdateInteractor,
-    private val viewScrollingRelay: ViewScrollingRelay
+    private val getCanPublishLiveUpdateInteractor: GetCanPublishLiveUpdateInteractor
 ) : BasePresenter<ListView>() {
 
     override fun onCreate() {
         super.onCreate()
         displayRateList()
-        pollCurrencies()
     }
 
     private fun displayRateList() {
@@ -37,6 +36,7 @@ class ListPresenter @ViewModelInject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     view()?.displayRate(it)
+                    pollCurrencies()
                 }, {
                     Log.e("ERROR", it.localizedMessage ?: "Unknown")
                     view()?.showError("${it.message}")
@@ -52,7 +52,7 @@ class ListPresenter @ViewModelInject constructor(
                 BiFunction { liveUpdateEnabled: Boolean, currencies: List<Currency> ->
                     CurrenciesViewData(liveUpdateEnabled, currencies)
                 }
-            ).throttleFirst(1000, TimeUnit.MILLISECONDS)
+            ).throttleFirst(Interval.MEDIUM, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

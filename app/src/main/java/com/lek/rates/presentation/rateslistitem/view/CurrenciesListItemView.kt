@@ -1,4 +1,4 @@
-package com.lek.rates.presentation.currencieslist.view
+package com.lek.rates.presentation.rateslistitem.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -10,14 +10,16 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.jakewharton.rxbinding4.InitialValueObservable
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.lek.rates.R
+import com.lek.rates.core.models.EMPTY_STRING
+import com.lek.rates.core.models.ZERO
 import io.reactivex.rxjava3.core.Observable
 
 class CurrenciesListItemView @JvmOverloads constructor(
     context: Context,
     attributeSet: AttributeSet? = null,
-    defStyle: Int = 0,
+    defStyle: Int = ZERO.toInt(),
     val itemClicked: () -> Unit = {}
-) : ConstraintLayout(context, attributeSet, defStyle), CurrenciesListItemContract.View,
+) : ConstraintLayout(context, attributeSet, defStyle), ListItemView,
     View.OnClickListener {
     
     init {
@@ -43,8 +45,8 @@ class CurrenciesListItemView @JvmOverloads constructor(
 
     override fun setCurrencyValue(currencyValue: Double) {
         findViewById<EditText>(R.id.currencyValue).apply {
-            if (currencyValue <= 0) {
-                setText(context.getString(R.string.currency_value, ""))
+            if (currencyValue <= ZERO.toInt()) {
+                setText(context.getString(R.string.currency_value, EMPTY_STRING))
             } else {
                 setText(context.getString(R.string.currency_value, currencyValue))
             }

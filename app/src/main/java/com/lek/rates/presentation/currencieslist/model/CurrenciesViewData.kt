@@ -1,4 +1,4 @@
-package com.lek.rates.presentation.ui.currencieslist.model
+package com.lek.rates.presentation.currencieslist.model
 
 import com.lek.rates.core.models.Currency
 
