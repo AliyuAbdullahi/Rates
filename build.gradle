@@ -4,7 +4,7 @@ buildscript {
 
     // retrofit
     ext.retrofit_version = '2.7.2'
-    ext.okhttp_version = '4.0.0'
+    ext.okhttp_version = '4.9.0'
     ext.gson_version = '2.8.5'
     ext.converter_version = '2.7.2'
 
@@ -36,8 +36,11 @@ buildscript {
     ext.junit5_runner_version = '1.0.0'
     ext.junit5_plugin_version = '1.6.2.0'
     ext.test_runner_version = '1.1.1'
+    ext.rxbinding_version = '4.0.0'
+    ext.rxrelay_version = '3.0.0'
 
     ext.mockk_version = '1.10.2'
+
 
     repositories {
         google()
