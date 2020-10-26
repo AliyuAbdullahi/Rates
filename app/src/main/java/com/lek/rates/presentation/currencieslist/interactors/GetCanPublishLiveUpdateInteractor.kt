@@ -1,8 +1,8 @@
-package com.lek.rates.presentation.ui.currencieslist.interactors
+package com.lek.rates.presentation.currencieslist.interactors
 
 import com.lek.rates.core.data.DataChangedObservable
-import com.lek.rates.presentation.ui.currencieslist.stream.KeyboardOpenedRelay
-import com.lek.rates.presentation.ui.currencieslist.stream.ViewScrollingRelay
+import com.lek.rates.presentation.currencieslist.stream.KeyboardOpenedRelay
+import com.lek.rates.presentation.currencieslist.stream.ViewScrollingRelay
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.functions.Function3
 
