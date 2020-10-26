@@ -1,17 +1,17 @@
 package com.lek.rates.core.models
 
-private const val NO_MODIFIER = -1.0
-private const val FLAGGED_EMPTY = -2.0
+private const val NO_MODIFIER = NEGATIVE_ONE
+const val EMPTY_STATE = ZERO
 
-object CurrencyModifier {
+object ExchangeRateEvaluator {
     var currencyCode: String = ""
     var value: Double = NO_MODIFIER
 
-    fun exist() = currencyCode.isNotEmpty()
+    var isSetEmpty: Boolean = false
 
-    fun isZero() = value == 0.0
+    fun hasNoValue() = value == NO_MODIFIER
 
-    fun isFlaggedEmpty() = value == FLAGGED_EMPTY
+    fun isBlank() = value == EMPTY_STATE
 
     fun clear() {
         currencyCode = ""

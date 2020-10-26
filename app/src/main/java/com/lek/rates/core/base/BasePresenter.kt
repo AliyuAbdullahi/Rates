@@ -34,7 +34,10 @@ abstract class BasePresenter<View> : ViewModel(), LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     open fun onCreate() {}
 
-    fun addDisposable(disposable: Disposable) = this.disposable.add(disposable)
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    open fun onResume() {}
+
+    fun addDisposable(disposable: Disposable?) = disposable?.let { this.disposable.add(it) }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun onViewDestroyed() {

@@ -1,6 +1,7 @@
-package com.lek.rates.presentation.helper
+package com.lek.rates.core.models
 
 private const val DEFAULT_RESPONDER = "EUR"
-object FirstResponderFactory {
+object FirstResponder {
     var firstResponder: String = DEFAULT_RESPONDER
+    var value = 1.0
 }

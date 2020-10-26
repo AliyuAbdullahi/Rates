@@ -7,13 +7,12 @@ import com.lek.rates.extensions.isSameAs
 import com.lek.rates.extensions.toThreeDecimalPlace
 import java.util.Locale
 
-object CurrenciesResponseMapper {
-    fun map(currenciesResponse: CurrenciesResponse): List<Currency> =
-        currenciesResponse.rates
+object CurrencyMapper {
+    fun map(currencyRates: Map<String, Double>?): List<Currency> =
+        currencyRates
             ?.let { rates ->
                 rates.map { currencyMap ->
-                    val currency =
-                        currenciesAndFlags()[currencyMap.key.toLowerCase(Locale.getDefault())]
+                    val currency = currenciesAndFlags()[currencyMap.key.toLowerCase(Locale.getDefault())]
                     Currency(
                         currencyMap.key,
                         currency?.fullName ?: "---",
@@ -24,37 +23,25 @@ object CurrenciesResponseMapper {
             } ?: listOf()
 
     private fun getCurrencyValue(
-        entry: Map.Entry<String, Double>,
-        rates: Map<String, Double>
+        currentEntry: Map.Entry<String, Double>,
+        allEntries: Map<String, Double>
     ): Double {
         val firstResponder = FirstResponder.firstResponder
-        val modifierCode = CurrencyModifier.currencyCode
-        val originalEntryValue = rates[CurrencyModifier.currencyCode] ?: CurrencyModifier.value
-        val multiplier = CurrencyModifier.value / originalEntryValue
+        val modifierCode = ExchangeRateEvaluator.currencyCode
+        val selectedExchangeRate = allEntries[ExchangeRateEvaluator.currencyCode] ?: ExchangeRateEvaluator.value
+        val multiplier = selectedExchangeRate / ExchangeRateEvaluator.value
         return when {
-            CurrencyModifier.isZero() -> 0.0
-            CurrencyModifier.isFlaggedEmpty() -> -2.0
-            CurrencyModifier.exist().not() -> entry.value
-            entry.key isSameAs modifierCode -> {
-                CurrencyModifier.value
+            ExchangeRateEvaluator.hasNoValue() -> currentEntry.value
+            ExchangeRateEvaluator.isBlank() -> ZERO
+            currentEntry.key isSameAs modifierCode -> {
+                ExchangeRateEvaluator.value
             }
-            entry.key isSameAs firstResponder && firstResponder isNotSameAs modifierCode -> {
+            currentEntry.key isSameAs firstResponder && firstResponder isNotSameAs modifierCode -> {
                 multiplier
             }
             else -> {
-                multiplier * entry.value
+                multiplier * currentEntry.value
             }
         }
-    }
-
-    private fun getFirstResponder(): Currency {
-        val currencyResource =
-            currenciesAndFlags()[FirstResponder.firstResponder.toLowerCase(Locale.getDefault())]
-        return Currency(
-            FirstResponder.firstResponder,
-            currencyResource?.fullName ?: "---",
-            1.0,
-            currencyResource?.flag ?: R.drawable.eur
-        )
     }
 }

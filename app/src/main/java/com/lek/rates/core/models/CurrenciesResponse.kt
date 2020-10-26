@@ -6,5 +6,5 @@ data class CurrenciesResponse(
     @SerializedName("baseCurrency")
     val baseCurrency: String? = null,
     @SerializedName("rates")
-    val rates: Map<String, Double>? = null
+    val rates: MutableMap<String, Double>? = null
 )
