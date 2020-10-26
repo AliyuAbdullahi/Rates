@@ -4,17 +4,17 @@ import com.lek.rates.R
 import com.lek.rates.core.testutils.mockCurrenciesResponse
 import org.junit.jupiter.api.Test
 
-internal class CurrenciesResponseMapperTest {
+internal class CurrencyMapperTest {
 
     @Test
     fun `when CurrenciesResponse is null - CurrenciesResponseMapper returns empty list`() {
-        val result = CurrenciesResponseMapper.map(CurrenciesResponse())
+        val result = CurrencyMapper.map(CurrenciesResponse().rates)
         assert(result.isEmpty())
     }
 
     @Test
     fun `when CurrenciesResponse is not null - CurrenciesResponseMapper returns curresponding currencies`() {
-        val result = CurrenciesResponseMapper.map(mockCurrenciesResponse())
+        val result = CurrencyMapper.map(mockCurrenciesResponse().rates)
         assert(result.size == 2)
         assert(result[0].currencyName == "Naira")
         assert(result[0].flag == R.drawable.ngn)
@@ -27,13 +27,14 @@ internal class CurrenciesResponseMapperTest {
     fun `when CurrencieResponse is not in local Resource - Default values are assigned`() {
         val currenciesResponse = CurrenciesResponse(
             baseCurrency = "EUR",
-            rates = mapOf("DZD" to 0.0066)
+            rates = mutableMapOf("DZD" to 0.0066)
         )
-        val result = CurrenciesResponseMapper.map(currenciesResponse)
+        val result = CurrencyMapper.map(currenciesResponse.rates)
+        println(result)
         assert(result.size == 1)
         assert(result[0].currencyName == "---")
         assert(result[0].currencyCode == "DZD")
-        assert(result[0].value == 0.0066)
+        assert(result[0].value == 0.006)
         assert(result[0].flag == R.drawable.default_flag)
     }
 }

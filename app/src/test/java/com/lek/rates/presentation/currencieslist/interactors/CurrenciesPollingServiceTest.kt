@@ -1,4 +1,4 @@
-package com.lek.rates.presentation.ui.currencieslist.interactors
+package com.lek.rates.presentation.currencieslist.interactors
 
 import com.lek.rates.BaseTest
 import com.lek.rates.core.repository.ICurrenciesRepository
