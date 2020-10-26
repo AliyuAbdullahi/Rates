@@ -80,6 +80,8 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxandroid:$rx_android_version"
     implementation "io.reactivex.rxjava3:rxjava:$rxjava_version"
     implementation "com.github.akarnokd:rxjava3-retrofit-adapter:$rx_android_version"
+    implementation "com.jakewharton.rxbinding4:rxbinding:$rxbinding_version"
+    implementation "com.jakewharton.rxrelay3:rxrelay:$rxrelay_version"
 
     //  --- Dagger Hilt Test  --- //
 

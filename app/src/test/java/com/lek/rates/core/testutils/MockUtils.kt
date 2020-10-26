@@ -6,7 +6,7 @@ import com.lek.rates.core.models.Currency
 
 fun mockCurrenciesResponse() = CurrenciesResponse(
     baseCurrency = "EUR",
-    rates = mapOf(
+    rates = mutableMapOf(
         "NGN" to 500.0,
         "USD" to 1.4
     )

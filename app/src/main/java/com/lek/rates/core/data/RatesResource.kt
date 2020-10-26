@@ -3,7 +3,7 @@ package com.lek.rates.core.data
 import androidx.annotation.DrawableRes
 import com.lek.rates.R
 
-fun currencyAndFlags() = hashMapOf(
+fun currenciesAndFlags() = hashMapOf(
     "aud" to Currency("Australian Dollar", "aud", R.drawable.aud),
     "bgn" to Currency("Bulgarian Lev", "bgn", R.drawable.bgn),
     "brl" to Currency("Brazilian Real", "brl", R.drawable.brl),

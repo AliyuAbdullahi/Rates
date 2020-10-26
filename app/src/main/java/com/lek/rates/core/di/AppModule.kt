@@ -3,6 +3,8 @@ package com.lek.rates.core.di
 import com.lek.rates.BuildConfig
 import com.lek.rates.BuildConfig.BASE_URL
 import com.lek.rates.core.api.services.CurrenciesService
+import com.lek.rates.presentation.currencieslist.stream.KeyboardOpenedRelay
+import com.lek.rates.presentation.currencieslist.stream.ViewScrollingRelay
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,13 +16,16 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 
 private const val DEBUG = "debug"
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
     @Provides
+    @Singleton
     fun provideOkHttpClient() =
         if (BuildConfig.BUILD_TYPE.toLowerCase(Locale.ROOT) == DEBUG) {
             getDebugHttpClient()
@@ -45,6 +50,7 @@ object AppModule {
     }
 
     @Provides
+    @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -54,6 +60,15 @@ object AppModule {
             .build()
 
     @Provides
+    @Singleton
     fun provideApiService(retrofit: Retrofit): CurrenciesService =
         retrofit.create(CurrenciesService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideKeyboardOpenedRelay(): KeyboardOpenedRelay = KeyboardOpenedRelay()
+
+    @Provides
+    @Singleton
+    fun provideViewScrollingRelay(): ViewScrollingRelay = ViewScrollingRelay()
 }
