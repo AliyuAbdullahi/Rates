@@ -48,7 +48,7 @@ class CurrenciesListItemView @JvmOverloads constructor(
             if (currencyValue <= ZERO.toInt()) {
                 setText(context.getString(R.string.currency_value, EMPTY_STRING))
             } else {
-                setText(context.getString(R.string.currency_value, currencyValue))
+                setText(context.getString(R.string.currency_value, currencyValue.toBigDecimal().toPlainString()))
             }
         }
     }

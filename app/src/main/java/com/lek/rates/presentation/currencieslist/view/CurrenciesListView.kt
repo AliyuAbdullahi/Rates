@@ -83,7 +83,7 @@ class CurrenciesListView @JvmOverloads constructor(
                 val currencyCode = (view as CurrenciesListItemView).findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
                 currencyMap[currencyCode]?.let {
                     view.findViewById<EditText>(R.id.currencyValue).apply {
-                        setText(context.getString(R.string.currency_value, "${it.value.toThreeDecimalPlace()}"))
+                        setText(context.getString(R.string.currency_value, it.value.toThreeDecimalPlace().toBigDecimal().toPlainString()))
                     }
                 }
             }
@@ -217,7 +217,7 @@ class CurrenciesListView @JvmOverloads constructor(
             if (currencyCode.equals(currentCurrency.currencyCode, true).not()) {
                 map[currencyCode]?.let { theCurrency ->
                     theCurrency.value = (theCurrency.value * multiplier).toThreeDecimalPlace()
-                    currentView.findViewById<EditText>(R.id.currencyValue).setText(context.getString(R.string.currency_value, theCurrency.value))
+                    currentView.findViewById<EditText>(R.id.currencyValue).setText(context.getString(R.string.currency_value, theCurrency.value.toBigDecimal().toPlainString()))
                 }
             }
         }
