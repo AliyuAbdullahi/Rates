@@ -10,8 +10,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.jakewharton.rxbinding4.InitialValueObservable
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.lek.rates.R
-import com.lek.rates.core.models.EMPTY_STRING
-import com.lek.rates.core.models.ZERO
+import com.lek.rates.globals.EMPTY_STRING
+import com.lek.rates.globals.ZERO
 import io.reactivex.rxjava3.core.Observable
 
 class CurrenciesListItemView @JvmOverloads constructor(
