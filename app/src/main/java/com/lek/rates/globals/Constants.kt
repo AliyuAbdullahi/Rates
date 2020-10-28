@@ -1,4 +1,4 @@
-package com.lek.rates.core.models
+package com.lek.rates.globals
 
 /**
  *  These are global Constants, available in entire application
@@ -13,4 +13,11 @@ object Interval {
     const val MEDIUM = 1000L
     const val DEFAULT = 500L
     const val SHORT = 300L
+    const val VERY_SHORT = 100L
+}
+
+object ErrorMessage {
+    const val dialogTitle = "Network Error"
+    const val defaultErrorMessage = "An Error occurred while making request"
+    const val noNetworkError = "No network connection found"
 }

@@ -8,18 +8,25 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.forEach
 import androidx.core.view.isEmpty
 import androidx.lifecycle.Lifecycle
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.lek.rates.R
 import com.lek.rates.core.data.CurrenciesCache
-import com.lek.rates.core.models.*
 import com.lek.rates.core.models.Currency
+import com.lek.rates.core.models.ExchangeRateEvaluator
+import com.lek.rates.core.models.FirstResponder
 import com.lek.rates.extensions.isNotSameAs
 import com.lek.rates.extensions.toThreeDecimalPlace
-import com.lek.rates.presentation.rateslistitem.presenter.CurrenciesListItemPresenter
+import com.lek.rates.globals.EMPTY_STRING
+import com.lek.rates.globals.ErrorMessage
+import com.lek.rates.globals.Interval
+import com.lek.rates.globals.ZERO
 import com.lek.rates.presentation.currencieslist.presenter.CurrenciesListPresenter
+import com.lek.rates.presentation.rateslistitem.presenter.CurrenciesListItemPresenter
 import com.lek.rates.presentation.rateslistitem.view.CurrenciesListItemView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -80,10 +87,16 @@ class CurrenciesListView @JvmOverloads constructor(
             }
             val currencyMap = currentCurrencies.map { it.currencyCode to it }.toMap()
             findViewById<LinearLayout>(R.id.currenciesListContainer).forEach { view ->
-                val currencyCode = (view as CurrenciesListItemView).findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
+                val currencyCode =
+                    (view as CurrenciesListItemView).findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
                 currencyMap[currencyCode]?.let {
                     view.findViewById<EditText>(R.id.currencyValue).apply {
-                        setText(context.getString(R.string.currency_value, it.value.toThreeDecimalPlace().toBigDecimal().toPlainString()))
+                        setText(
+                            context.getString(
+                                R.string.currency_value,
+                                it.value.toThreeDecimalPlace().toBigDecimal().toPlainString()
+                            )
+                        )
                     }
                 }
             }
@@ -195,7 +208,8 @@ class CurrenciesListView @JvmOverloads constructor(
     }
 
     private fun updateCurrencyValues(changedValue: String, currentCurrency: Currency) {
-        val container = this@CurrenciesListView.findViewById<LinearLayout>(R.id.currenciesListContainer)
+        val container =
+            this@CurrenciesListView.findViewById<LinearLayout>(R.id.currenciesListContainer)
         if (changedValue.isEmpty() || changedValue.toDouble() == ZERO) {
             setEmptyValueState(container, currentCurrency)
         } else {
@@ -213,11 +227,18 @@ class CurrenciesListView @JvmOverloads constructor(
             val map = mutableMapOf<String, Currency>()
             map.putAll(CurrenciesCache.getCache())
             val currentView = container.getChildAt(index)
-            val currencyCode = currentView.findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
+            val currencyCode =
+                currentView.findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
+
             if (currencyCode.equals(currentCurrency.currencyCode, true).not()) {
                 map[currencyCode]?.let { theCurrency ->
                     theCurrency.value = (theCurrency.value * multiplier).toThreeDecimalPlace()
-                    currentView.findViewById<EditText>(R.id.currencyValue).setText(context.getString(R.string.currency_value, theCurrency.value.toBigDecimal().toPlainString()))
+                    currentView.findViewById<EditText>(R.id.currencyValue).setText(
+                        context.getString(
+                            R.string.currency_value,
+                            theCurrency.value.toBigDecimal().toPlainString()
+                        )
+                    )
                 }
             }
         }
@@ -229,7 +250,8 @@ class CurrenciesListView @JvmOverloads constructor(
     ) {
         for (index in 0 until container.childCount) {
             val currentView = container.getChildAt(index)
-            val currencyCode = currentView.findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
+            val currencyCode =
+                currentView.findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
             if (currencyCode.equals(currentCurrency.currencyCode, true).not()) {
                 currentView.findViewById<EditText>(R.id.currencyValue).setText(EMPTY_STRING)
             }
@@ -246,11 +268,11 @@ class CurrenciesListView @JvmOverloads constructor(
     }
 
     override fun showError(message: String) {
-
-    }
-
-    override fun updateCurrencies(currencies: List<Currency>) {
-
+        Snackbar.make(
+            this,
+            context.getString(R.string.error_message, message),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 
     override fun fling(velocityY: Int) {
@@ -263,6 +285,30 @@ class CurrenciesListView @JvmOverloads constructor(
         super.onDetachedFromWindow()
         disposable.dispose()
     }
+
+    lateinit var dialog: AlertDialog
+    override fun showNetworkError(errorMessage: String) {
+        if (this::dialog.isInitialized) {
+            if (dialog.isShowing.not()) {
+                createAndShowDialog(errorMessage)
+            }
+        } else {
+            createAndShowDialog(errorMessage)
+        }
+    }
+
+    private fun createAndShowDialog(errorMessage: String) {
+        dialog = initializeDialog(errorMessage)
+        dialog.show()
+    }
+
+    private fun initializeDialog(errorMessage: String): AlertDialog =
+        AlertDialog.Builder(context)
+            .setTitle(context.getString(R.string.dialog_title, ErrorMessage.dialogTitle))
+            .setMessage(context.getString(R.string.dialog_message, errorMessage))
+            .setPositiveButton(context.getString(R.string.ok), null)
+            .create()
+
 }
 
 private data class CurrencyValue(val value: String, val keyboardOpened: Boolean)

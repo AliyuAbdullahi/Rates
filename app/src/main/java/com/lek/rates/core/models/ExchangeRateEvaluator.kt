@@ -1,5 +1,8 @@
 package com.lek.rates.core.models
 
+import com.lek.rates.globals.NEGATIVE_ONE
+import com.lek.rates.globals.ZERO
+
 private const val NO_MODIFIER = NEGATIVE_ONE
 const val EMPTY_STATE = ZERO
 

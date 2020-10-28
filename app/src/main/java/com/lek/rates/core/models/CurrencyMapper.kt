@@ -5,6 +5,7 @@ import com.lek.rates.core.data.currenciesAndFlags
 import com.lek.rates.extensions.isNotSameAs
 import com.lek.rates.extensions.isSameAs
 import com.lek.rates.extensions.toThreeDecimalPlace
+import com.lek.rates.globals.ZERO
 import java.util.Locale
 
 object CurrencyMapper {
