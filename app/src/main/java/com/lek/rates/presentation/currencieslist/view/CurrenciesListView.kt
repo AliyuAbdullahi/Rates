@@ -117,7 +117,7 @@ class CurrenciesListView @JvmOverloads constructor(
     private fun setFirstResponder(currency: Currency) {
         items.remove(currency)
         items.addFirst(currency)
-        FirstResponder.firstResponder = currency.currencyCode
+        CurrenciesCache.setAsFirstResponder(currency)
         val containter = findViewById<LinearLayout>(R.id.currenciesListContainer)
         containter.removeAllViews()
         displayRate(items.toList())
