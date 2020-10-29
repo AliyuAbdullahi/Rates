@@ -3,6 +3,7 @@ package com.lek.rates.core.di
 import android.content.Context
 import com.lek.rates.BuildConfig
 import com.lek.rates.BuildConfig.BASE_URL
+import com.lek.rates.core.api.config.ApiConfig
 import com.lek.rates.core.exceptions.NoNetworkException
 import com.lek.rates.core.api.services.CurrenciesService
 import com.lek.rates.core.services.INetworkService
@@ -81,7 +82,7 @@ object AppModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(ApiConfig.BASE_URL)
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
