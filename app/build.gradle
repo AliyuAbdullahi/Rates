@@ -16,7 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.lek.rates.RatesTestRunner"
         testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
     }
 
@@ -123,6 +123,15 @@ dependencies {
     androidTestImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
     androidTestImplementation "de.mannodermaus.junit5:android-test-core:$junut5_core_version"
     androidTestRuntimeOnly "de.mannodermaus.junit5:android-test-runner:$junit5_runner_version"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
+        // --- Espresso --- //
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test:runner:$androidx_runner_version"
+    androidTestImplementation "androidx.test:rules:$androidx_runner_version"
+
+    // --- Mock Web Server --- //
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$mock_web_server_version"
 
     // --- Mockk --- //
     testImplementation "io.mockk:mockk:$mockk_version"

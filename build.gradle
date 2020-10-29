@@ -39,11 +39,13 @@ buildscript {
     ext.junit5_runner_version = '1.0.0'
     ext.junit5_plugin_version = '1.6.2.0'
     ext.test_runner_version = '1.1.1'
+    ext.espresso_version = '3.1.0'
+    ext.androidx_runner_version = '1.2.0'
     ext.rxbinding_version = '4.0.0'
     ext.rxrelay_version = '3.0.0'
 
     ext.mockk_version = '1.10.2'
-
+    ext.mock_web_server_version = '4.4.0'
 
     repositories {
         google()
