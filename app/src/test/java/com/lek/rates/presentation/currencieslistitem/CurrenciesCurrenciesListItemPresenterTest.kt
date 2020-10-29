@@ -1,10 +1,10 @@
-package com.lek.rates.presentation.rateslistitem
+package com.lek.rates.presentation.currencieslistitem
 
 import com.lek.rates.BaseTest
 import com.lek.rates.R
 import com.lek.rates.core.models.Currency
-import com.lek.rates.presentation.rateslistitem.presenter.CurrenciesListItemPresenter
-import com.lek.rates.presentation.rateslistitem.view.CurrenciesListItemView
+import com.lek.rates.presentation.currencieslistitem.presenter.CurrenciesListItemPresenter
+import com.lek.rates.presentation.currencieslistitem.view.CurrenciesListItemView
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.spyk

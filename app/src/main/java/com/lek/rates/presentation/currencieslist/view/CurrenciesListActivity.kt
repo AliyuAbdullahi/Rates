@@ -1,7 +1,6 @@
 package com.lek.rates.presentation.currencieslist.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.Window
@@ -14,7 +13,7 @@ import com.lek.rates.globals.ZERO
 import com.lek.rates.presentation.network.NetworkStatus
 import com.lek.rates.presentation.network.NetworkStatusListener
 import com.lek.rates.presentation.currencieslist.interactors.GetCanPublishLiveUpdateInteractor
-import com.lek.rates.presentation.rateslistitem.presenter.CurrenciesListItemPresenter
+import com.lek.rates.presentation.currencieslistitem.presenter.CurrenciesListItemPresenter
 import com.lek.rates.presentation.currencieslist.presenter.CurrenciesListPresenter
 import com.lek.rates.presentation.currencieslist.presenter.MainPresenter
 import com.lek.rates.presentation.currencieslist.stream.KeyboardOpenedRelay
