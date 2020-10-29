@@ -26,8 +26,8 @@ import com.lek.rates.globals.ErrorMessage
 import com.lek.rates.globals.Interval
 import com.lek.rates.globals.ZERO
 import com.lek.rates.presentation.currencieslist.presenter.CurrenciesListPresenter
-import com.lek.rates.presentation.rateslistitem.presenter.CurrenciesListItemPresenter
-import com.lek.rates.presentation.rateslistitem.view.CurrenciesListItemView
+import com.lek.rates.presentation.currencieslistitem.presenter.CurrenciesListItemPresenter
+import com.lek.rates.presentation.currencieslistitem.view.CurrenciesListItemView
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -117,7 +117,7 @@ class CurrenciesListView @JvmOverloads constructor(
     private fun setFirstResponder(currency: Currency) {
         items.remove(currency)
         items.addFirst(currency)
-        FirstResponder.firstResponder = currency.currencyCode
+        CurrenciesCache.setAsFirstResponder(currency)
         val containter = findViewById<LinearLayout>(R.id.currenciesListContainer)
         containter.removeAllViews()
         displayRate(items.toList())

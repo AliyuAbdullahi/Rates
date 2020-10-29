@@ -1,4 +1,4 @@
-package com.lek.rates.presentation.rateslistitem.view
+package com.lek.rates.presentation.currencieslistitem.view
 
 import android.content.Context
 import android.util.AttributeSet

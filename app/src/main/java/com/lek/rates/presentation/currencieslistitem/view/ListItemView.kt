@@ -1,4 +1,4 @@
-package com.lek.rates.presentation.rateslistitem.view
+package com.lek.rates.presentation.currencieslistitem.view
 
 import androidx.annotation.DrawableRes
 import com.jakewharton.rxbinding4.InitialValueObservable

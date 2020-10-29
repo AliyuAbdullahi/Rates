@@ -7,10 +7,11 @@ import com.lek.rates.core.models.FirstResponder
 import com.lek.rates.extensions.isNotSameAs
 import com.lek.rates.extensions.isSameAs
 import com.lek.rates.extensions.toThreeDecimalPlace
+import java.util.*
 
 object CurrenciesCache {
 
-    private var currencies: MutableList<Currency> = mutableListOf()
+    private var currencies: LinkedList<Currency> = LinkedList()
 
     private val cache = mutableMapOf<String, Currency>()
 
@@ -24,7 +25,7 @@ object CurrenciesCache {
 
         if (currencies.isEmpty()) {
             // load data first time
-            currencies = cache.values.toMutableList()
+            currencies.addAll(cache.values)
         } else {
             //attempt update existing values
             currencies.forEach { currency ->
@@ -51,9 +52,11 @@ object CurrenciesCache {
 
     fun getCache() = cache
 
-    fun updateCurrencies(currencies: List<Currency>) {
-        this.currencies = currencies.toMutableList()
-    }
-
     fun newData() = newItems
+
+    fun setAsFirstResponder(currency: Currency) {
+        FirstResponder.firstResponder = currency.currencyCode
+        currencies.remove(currency)
+        currencies.addFirst(currency)
+    }
 }
