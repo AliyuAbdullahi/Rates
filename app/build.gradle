@@ -1,6 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'de.mannodermaus.android-junit5'
 
 android {
     compileSdkVersion 30
@@ -8,30 +11,137 @@ android {
 
     defaultConfig {
         applicationId "com.lek.rates"
-        minSdkVersion 24
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.lek.rates.RatesTestRunner"
+        testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    // JUnit 5 will bundle in files with identical paths; exclude them
+    packagingOptions {
+        exclude "META-INF/LICENSE*"
     }
 
     buildTypes {
         release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", "\"https://hiring.revolut.codes/api/android/\""
+        }
+
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", "\"https://hiring.revolut.codes/api/android/\""
         }
     }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.1'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
+    // --- Androidx libs --- //
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "androidx.core:core-ktx:$androidx_core_version"
+    implementation "androidx.appcompat:appcompat:$app_compat_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+
+    // --- Dagger - Hilt --- //
+
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_arch_version"
+    // Activity Ktx for injecting View Models with viewModels()
+    implementation "androidx.activity:activity-ktx:$androidx_version"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_arch_version"
+
+    // --- RxJava --- //
+
+    implementation "io.reactivex.rxjava3:rxandroid:$rx_android_version"
+    implementation "io.reactivex.rxjava3:rxjava:$rxjava_version"
+    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:$rx_android_version"
+    implementation "com.jakewharton.rxbinding4:rxbinding:$rxbinding_version"
+    implementation "com.jakewharton.rxrelay3:rxrelay:$rxrelay_version"
+
+    //  --- Dagger Hilt Test  --- //
+
+        // For instrumentation tests
+
+    androidTestImplementation  "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+        // For local unit tests
+
+    testImplementation "com.google.dagger:hilt-android-testing:$hilt_version"
+    kaptTest "com.google.dagger:hilt-android-compiler:$hilt_version"
+
+    // --- Retrofit --- //
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "com.squareup.retrofit2:converter-gson:$converter_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+
+    // --- LifeCycle --- //
+
+    implementation "androidx.lifecycle:lifecycle-common:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation "android.arch.lifecycle:extensions:$lifecycle_version"
+
+    // -- Animation
+
+    implementation "com.airbnb.android:lottie:$lottie_version"
+
+    // --- Unit Test --- //
+
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junit5_version"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junit5_version"
+
+    // --- Instrumentation Test --- //
+
+    androidTestImplementation "org.junit.jupiter:junit-jupiter-api:$junit5_version"
+    androidTestImplementation "de.mannodermaus.junit5:android-test-core:$junut5_core_version"
+    androidTestRuntimeOnly "de.mannodermaus.junit5:android-test-runner:$junit5_runner_version"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
+        // --- Espresso --- //
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test:runner:$androidx_runner_version"
+    androidTestImplementation "androidx.test:rules:$androidx_runner_version"
+
+    // --- Mock Web Server --- //
+    androidTestImplementation "com.squareup.okhttp3:mockwebserver:$mock_web_server_version"
+
+    // --- Mockk --- //
+    testImplementation "io.mockk:mockk:$mockk_version"
+    androidTestImplementation "io.mockk:mockk-android:$mockk_version"
+}
+
+kapt {
+    correctErrorTypes true
+}
+
+kapt {
+    generateStubs = true
 }

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/currencyHeight"
+    android:layout_marginStart="@dimen/standardMargin"
+    android:layout_marginTop="@dimen/standardMargin"
+    android:layout_marginEnd="@dimen/standardMargin">
+
+    <ImageView
+        android:id="@+id/flag"
+        android:layout_width="@dimen/flagSize"
+        android:layout_height="@dimen/flagSize"
+        android:src="@drawable/aud"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/currencyAbbreviation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_marginLeft="@dimen/standardMargin"
+        android:textColor="@color/currencyTextColor"
+        android:textSize="@dimen/mediumText"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintLeft_toRightOf="@id/flag"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="DKK" />
+
+    <TextView
+        android:id="@+id/currencyName"
+        android:fontFamily="@font/roboto_thin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/standardMargin"
+        android:textColor="@color/currencyTextColor"
+        android:textSize="@dimen/smallText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/flag"
+        app:layout_constraintTop_toBottomOf="@id/guideline"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="Danish Krone" />
+
+    <EditText
+        android:padding="@dimen/currencyValuePadding"
+        android:id="@+id/currencyValue"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_width="0dp"
+        android:background="@null"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:inputType="numberDecimal"
+        android:gravity="end"
+        android:hint="@string/none"
+        android:letterSpacing="0.09"
+        android:minWidth="40dp"
+        android:textSize="@dimen/largeText"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="4.455" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.5"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.54353565" />
+
+    <View
+        android:id="@+id/itemSelector"
+        android:layout_width="0dp"
+        android:clickable="true"
+        android:layout_height="80dp"
+        android:background="?attr/selectableItemBackground"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/currencyValue"
+        app:layout_constraintTop_toTopOf="parent"
+        android:focusable="true" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

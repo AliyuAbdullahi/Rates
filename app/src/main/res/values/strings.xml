@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Rates</string>
+    <string name="currency_value">%1$s</string>
+    <string name="currency_code">%1$s</string>
+    <string name="currency_name">%1$s</string>
+    <string name="currency_list_title">Conversion Rates</string>
+    <string name="empty_state_message">Empty Currency</string>
+    <string name="error_message">%1$s</string>
+    <string name="dialog_title">%1$s</string>
+    <string name="dialog_message">%1$s</string>
+    <string name="ok">Dismiss</string>
+    <string name="none">0</string>
 </resources>
