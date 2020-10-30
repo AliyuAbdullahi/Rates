@@ -5,6 +5,8 @@ Rates is a currency rate conversion application with the ability to
 * Live Editing (A binding-editing property that allows a single field edit to bind to other fields
 
 ## Demo
+Click on image below to watch video demo on youtube.
+
 [![Watch the video](files/app_demo.png)](https://youtu.be/ZClg2YICWJQ)
 
 ## Language
