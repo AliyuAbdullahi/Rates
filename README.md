@@ -1,12 +1,11 @@
 # Rates
-
-## Demo
-![Demo gif](files/demo.gif)
-
-Rates is a currency rate conversion application with the ability to 
+Rates is a currency rate conversion application with the ability to
 * Display live currencies and associated value at interval realtime.
 * Select First Responder (A reference to which other currencies are valued).
 * Live Editing (A binding-editing property that allows a single field edit to bind to other fields
+
+## Demo
+[![Watch the video](files/app_demo.png)](https://youtu.be/ZClg2YICWJQ)
 
 ## Language
 [Kotlin](https://kotlinlang.org/)
