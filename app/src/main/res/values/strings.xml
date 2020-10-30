@@ -9,4 +9,5 @@
     <string name="dialog_title">%1$s</string>
     <string name="dialog_message">%1$s</string>
     <string name="ok">Dismiss</string>
+    <string name="none">0</string>
 </resources>

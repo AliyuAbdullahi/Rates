@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginTop="16dp"
-    android:layout_marginEnd="16dp">
+    android:layout_height="@dimen/currencyHeight"
+    android:layout_marginStart="@dimen/standardMargin"
+    android:layout_marginTop="@dimen/standardMargin"
+    android:layout_marginEnd="@dimen/standardMargin">
 
     <ImageView
         android:id="@+id/flag"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/flagSize"
+        android:layout_height="@dimen/flagSize"
         android:src="@drawable/aud"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,38 +21,41 @@
         android:id="@+id/currencyAbbreviation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:text="DKK"
-        android:textColor="#424242"
-        android:textSize="16sp"
+        android:fontFamily="@font/roboto_regular"
+        android:layout_marginLeft="@dimen/standardMargin"
+        android:textColor="@color/currencyTextColor"
+        android:textSize="@dimen/mediumText"
         app:layout_constraintBottom_toTopOf="@id/guideline"
         app:layout_constraintLeft_toRightOf="@id/flag"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="DKK" />
 
     <TextView
         android:id="@+id/currencyName"
+        android:fontFamily="@font/roboto_thin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:text="Danish Krone"
-        android:textColor="#616161"
-        android:textSize="14sp"
+        android:layout_marginLeft="@dimen/standardMargin"
+        android:textColor="@color/currencyTextColor"
+        android:textSize="@dimen/smallText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/flag"
         app:layout_constraintTop_toBottomOf="@id/guideline"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="Danish Krone" />
 
     <EditText
         android:id="@+id/currencyValue"
+        android:fontFamily="@font/roboto_regular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:inputType="numberDecimal"
         android:gravity="end"
-        android:hint="0"
+        android:hint="@string/none"
         android:minWidth="40dp"
-        android:textSize="24sp"
+        android:textSize="@dimen/largeText"
         android:focusable="true"
         android:focusableInTouchMode="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -75,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="206dp" />
+        app:layout_constraintGuide_percent="0.54353565" />
 
     <View
         android:id="@+id/itemSelector"

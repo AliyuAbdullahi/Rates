@@ -178,8 +178,8 @@ class CurrenciesListView @JvmOverloads constructor(
         view: CurrenciesListItemView,
         currency: Currency
     ) {
-        view.findViewById<EditText>(R.id.currencyValue).let {
-            it.setOnFocusChangeListener { view, hasFocus ->
+        view.findViewById<EditText>(R.id.currencyValue).let { currentValueEditText ->
+            currentValueEditText.setOnFocusChangeListener { view, hasFocus ->
                 var dispatched = false
                 if (hasFocus && dispatched.not()) {
                     disposable.clear()
@@ -286,7 +286,7 @@ class CurrenciesListView @JvmOverloads constructor(
         disposable.dispose()
     }
 
-    lateinit var dialog: AlertDialog
+    private lateinit var dialog: AlertDialog
     override fun showNetworkError(errorMessage: String) {
         if (this::dialog.isInitialized) {
             if (dialog.isShowing.not()) {
