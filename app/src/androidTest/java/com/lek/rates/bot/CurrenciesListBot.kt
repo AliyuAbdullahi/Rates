@@ -3,8 +3,11 @@ package com.lek.rates.bot
 import com.lek.rates.R
 
 class CurrenciesListBot : ScreenBot<CurrenciesListBot>() {
+
     fun listViewExist(): CurrenciesListBot = checkIsDisplayed(R.id.currenciesListView)
+
     fun clickOnCurrency(currencyCode: String): CurrenciesListBot = clickOnViewWithTag(currencyCode)
+
     fun checkIfCurrencyDisplayed(currencyCode: String): CurrenciesListBot =
         checkIsDisplayedWithTag(currencyCode)
 

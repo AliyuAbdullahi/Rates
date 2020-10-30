@@ -7,25 +7,26 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import java.lang.ref.WeakReference
 
 /**
  *  Android Lifecycle-ViewModel is used to provide lifecycle-aware functionality to the Presenter
  */
 abstract class BasePresenter<View> : ViewModel(), LifecycleObserver {
-    private var view: View? = null
-    private var viewLifecycle: Lifecycle? = null
+    private var view: WeakReference<View>? = null
+    private var viewLifecycle: WeakReference<Lifecycle>? = null
 
-    private val disposable = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
 
-    fun attachView(view: View, viewLifecycle: Lifecycle) {
-        this.view = view
-        this.viewLifecycle = viewLifecycle
+    fun attachView(view: View, lifecycle: Lifecycle) {
+        this.view = WeakReference(view)
+        this.viewLifecycle = WeakReference(lifecycle)
 
-        viewLifecycle.addObserver(this)
+        viewLifecycle?.get()?.addObserver(this)
     }
 
     fun view(): View? {
-        return view
+        return view?.get()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -37,12 +38,12 @@ abstract class BasePresenter<View> : ViewModel(), LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     open fun onResume() {}
 
-    fun addDisposable(disposable: Disposable?) = disposable?.let { this.disposable.add(it) }
+    fun addDisposable(disposable: Disposable?) = disposable?.let { compositeDisposable.add(it) }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    fun onViewDestroyed() {
-        view = null
-        viewLifecycle = null
-        disposable.dispose()
+    open fun onViewDestroyed() {
+        view?.clear()
+        viewLifecycle?.clear()
+        compositeDisposable.dispose()
     }
 }
