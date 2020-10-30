@@ -16,13 +16,13 @@ object FirstResponder {
 
     var value = 1.0
 
-    private val pref = RatesApp.context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+    private val pref = RatesApp.contextRef?.get()?.getSharedPreferences(prefName, Context.MODE_PRIVATE)
 
     private fun getSavedFirstResponder(): String {
-        return pref.getString(KEY_FIRST_RESPONDER, DEFAULT_RESPONDER) ?: DEFAULT_RESPONDER
+        return pref?.getString(KEY_FIRST_RESPONDER, DEFAULT_RESPONDER) ?: DEFAULT_RESPONDER
     }
 
     private fun setTheFirstResponder(firstResponder: String) {
-        pref.edit().putString(KEY_FIRST_RESPONDER, firstResponder).apply()
+        pref?.edit()?.putString(KEY_FIRST_RESPONDER, firstResponder)?.apply()
     }
 }

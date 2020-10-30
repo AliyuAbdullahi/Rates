@@ -13,20 +13,20 @@ import java.lang.ref.WeakReference
  *  Android Lifecycle-ViewModel is used to provide lifecycle-aware functionality to the Presenter
  */
 abstract class BasePresenter<View> : ViewModel(), LifecycleObserver {
-    private var view: WeakReference<View>? = null
-    private var viewLifecycle: WeakReference<Lifecycle>? = null
+    private var viewRef: WeakReference<View>? = null
+    private var viewLifecycleRef: WeakReference<Lifecycle>? = null
 
     private val compositeDisposable = CompositeDisposable()
 
     fun attachView(view: View, lifecycle: Lifecycle) {
-        this.view = WeakReference(view)
-        this.viewLifecycle = WeakReference(lifecycle)
+        this.viewRef = WeakReference(view)
+        this.viewLifecycleRef = WeakReference(lifecycle)
 
-        viewLifecycle?.get()?.addObserver(this)
+        viewLifecycleRef?.get()?.addObserver(this)
     }
 
     fun view(): View? {
-        return view?.get()
+        return viewRef?.get()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
@@ -42,8 +42,8 @@ abstract class BasePresenter<View> : ViewModel(), LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     open fun onViewDestroyed() {
-        view?.clear()
-        viewLifecycle?.clear()
+        viewRef?.clear()
+        viewLifecycleRef?.clear()
         compositeDisposable.dispose()
     }
 }
