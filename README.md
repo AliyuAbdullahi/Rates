@@ -54,6 +54,10 @@ D -->|View Events| C
 C -->|Query| B
 ```
 
+![Architecture dialgram](files/architecture_diagram.png)
+
+*(Backup, if mermaid is not enabled on browser)*
+
 From the [Mermaid](https://mermaid-js.github.io/mermaid/) flow diagram above, Rates app uses a modified Model View Presenter (MVP)
 architecture. The modification is around using Interactors for specific **Use Case** , that way, we only query what we need from the repository and not load the entire repository in the **Presenter**. 
 There are many articles on MVP architecture online, check [this](https://www.raywenderlich.com/7026-getting-started-with-mvp-model-view-presenter-on-android) article from Raywenderlich for some knowledge on this architecture.
@@ -61,8 +65,8 @@ There are many articles on MVP architecture online, check [this](https://www.ray
 ### Tools
 Rates application uses some dedicated tools for some specific operations.
 
-*[Rxjava](https://github.com/ReactiveX/RxJava)* -> Asynchronous operations and data flow.
-*[Retrofit](https://github.com/square/retrofit)* -> Network request
-*[RxRelay](https://github.com/JakeWharton/RxRelay)* -> Asynchronous stream
-*[Mock Web Server](https://github.com/square/okhttp/tree/master/mockwebserver)* -> Mock response for Instrumentation testing
-*[Mockk](https://github.com/mockk/mockk)* -> For mocking models in Unit testing
+* *[Rxjava](https://github.com/ReactiveX/RxJava)* -> Asynchronous operations and data flow.
+* *[Retrofit](https://github.com/square/retrofit)* -> Network request
+* *[RxRelay](https://github.com/JakeWharton/RxRelay)* -> Asynchronous stream
+* *[Mock Web Server](https://github.com/square/okhttp/tree/master/mockwebserver)* -> Mock response for Instrumentation testing
+* *[Mockk](https://github.com/mockk/mockk)* -> For mocking models in Unit testing

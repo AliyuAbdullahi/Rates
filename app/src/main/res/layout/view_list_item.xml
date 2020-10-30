@@ -46,14 +46,17 @@
         tools:text="Danish Krone" />
 
     <EditText
+        android:padding="@dimen/currencyValuePadding"
         android:id="@+id/currencyValue"
         android:fontFamily="@font/roboto_regular"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:background="@null"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:inputType="numberDecimal"
         android:gravity="end"
         android:hint="@string/none"
+        android:letterSpacing="0.09"
         android:minWidth="40dp"
         android:textSize="@dimen/largeText"
         android:focusable="true"
@@ -62,7 +65,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="4.455" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

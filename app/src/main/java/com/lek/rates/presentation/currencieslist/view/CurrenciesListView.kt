@@ -73,47 +73,6 @@ class CurrenciesListView @JvmOverloads constructor(
         }
     }
 
-    private fun updateCurrencyValues(
-        currentValue: String,
-        currentCurrencies: MutableList<Currency>
-    ) {
-        if (currentValue.isBlank()) {
-            setValuesToBlank()
-        } else {
-            currentCurrencies.forEach { currency ->
-                if (currency.currencyCode isNotSameAs ExchangeRateEvaluator.currencyCode) {
-                    currency.value = currency.value * ExchangeRateEvaluator.value
-                }
-            }
-            val currencyMap = currentCurrencies.map { it.currencyCode to it }.toMap()
-            findViewById<LinearLayout>(R.id.currenciesListContainer).forEach { view ->
-                val currencyCode =
-                    (view as CurrenciesListItemView).findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
-                currencyMap[currencyCode]?.let {
-                    view.findViewById<EditText>(R.id.currencyValue).apply {
-                        setText(
-                            context.getString(
-                                R.string.currency_value,
-                                it.value.toThreeDecimalPlace().toBigDecimal().toPlainString()
-                            )
-                        )
-                    }
-                }
-            }
-        }
-    }
-
-    private fun setValuesToBlank() {
-        findViewById<LinearLayout>(R.id.currenciesListContainer).forEach { view ->
-            val currencyCode =
-                (view as CurrenciesListItemView).findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
-            if (!currencyCode.equals(ExchangeRateEvaluator.currencyCode, true)) {
-                view.findViewById<TextView>(R.id.currencyValue)
-                    .setText(context.getString(R.string.currency_value, ""))
-            }
-        }
-    }
-
     private fun setFirstResponder(currency: Currency) {
         items.remove(currency)
         items.addFirst(currency)
@@ -196,6 +155,8 @@ class CurrenciesListView @JvmOverloads constructor(
                             ?.subscribe({ changedValue ->
                                 if (changedValue.keyboardOpened) {
                                     dispatched = true
+//                                    ExchangeRateEvaluator.value = if (changedValue.value.isEmpty()) 0.0 else changedValue.value.toDouble()
+//                                    ExchangeRateEvaluator.currencyCode = currency.currencyCode
                                     updateCurrencyValues(changedValue.value, currency)
                                 }
                             }, {
@@ -208,8 +169,7 @@ class CurrenciesListView @JvmOverloads constructor(
     }
 
     private fun updateCurrencyValues(changedValue: String, currentCurrency: Currency) {
-        val container =
-            this@CurrenciesListView.findViewById<LinearLayout>(R.id.currenciesListContainer)
+        val container = this@CurrenciesListView.findViewById<LinearLayout>(R.id.currenciesListContainer)
         if (changedValue.isEmpty() || changedValue.toDouble() == ZERO) {
             setEmptyValueState(container, currentCurrency)
         } else {
@@ -227,8 +187,7 @@ class CurrenciesListView @JvmOverloads constructor(
             val map = mutableMapOf<String, Currency>()
             map.putAll(CurrenciesCache.getCache())
             val currentView = container.getChildAt(index)
-            val currencyCode =
-                currentView.findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
+            val currencyCode = currentView.findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
 
             if (currencyCode.equals(currentCurrency.currencyCode, true).not()) {
                 map[currencyCode]?.let { theCurrency ->
@@ -242,6 +201,9 @@ class CurrenciesListView @JvmOverloads constructor(
                 }
             }
         }
+
+        ExchangeRateEvaluator.currencyCode = currentCurrency.currencyCode
+        ExchangeRateEvaluator.value = changedValue.toDouble()
     }
 
     private fun setEmptyValueState(
@@ -256,6 +218,7 @@ class CurrenciesListView @JvmOverloads constructor(
                 currentView.findViewById<EditText>(R.id.currencyValue).setText(EMPTY_STRING)
             }
         }
+        ExchangeRateEvaluator.clear()
     }
 
     private fun bindCurrencyToView(
@@ -308,7 +271,6 @@ class CurrenciesListView @JvmOverloads constructor(
             .setMessage(context.getString(R.string.dialog_message, errorMessage))
             .setPositiveButton(context.getString(R.string.ok), null)
             .create()
-
 }
 
 private data class CurrencyValue(val value: String, val keyboardOpened: Boolean)

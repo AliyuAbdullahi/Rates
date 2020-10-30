@@ -8,4 +8,5 @@
     <dimen name="smallText">14sp</dimen>
     <dimen name="toolbarShadowHeight">8dp</dimen>
     <dimen name="loadingViewSize">120dp</dimen>
+    <dimen name="currencyValuePadding">4dp</dimen>
 </resources>
