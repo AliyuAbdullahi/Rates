@@ -8,7 +8,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.lek.rates.R
-import com.lek.rates.core.models.ExchangeRateEvaluator
 import com.lek.rates.globals.ZERO
 import com.lek.rates.presentation.network.NetworkStatus
 import com.lek.rates.presentation.network.NetworkStatusListener
@@ -90,7 +89,7 @@ class CurrenciesListActivity : AppCompatActivity(), MainView, OnFlingListener,
 
     override fun onFlingStarted() {
         viewScrollingRelay.set(true)
-        hideKeyboard { ExchangeRateEvaluator.clear() }
+        hideKeyboard()
     }
 
     override fun onFlingStopped() {

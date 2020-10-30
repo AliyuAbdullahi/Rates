@@ -27,17 +27,16 @@ object CurrencyMapper {
         currentEntry: Map.Entry<String, Double>,
         allEntries: Map<String, Double>
     ): Double {
-        val firstResponder = FirstResponder.firstResponder
         val modifierCode = ExchangeRateEvaluator.currencyCode
         val selectedExchangeRate = allEntries[ExchangeRateEvaluator.currencyCode] ?: ExchangeRateEvaluator.value
-        val multiplier = selectedExchangeRate / ExchangeRateEvaluator.value
+        val multiplier = if (ExchangeRateEvaluator.value != 0.0) selectedExchangeRate / ExchangeRateEvaluator.value else FirstResponder.value
         return when {
             ExchangeRateEvaluator.hasNoValue() -> currentEntry.value
             ExchangeRateEvaluator.isBlank() -> ZERO
             currentEntry.key isSameAs modifierCode -> {
                 ExchangeRateEvaluator.value
             }
-            currentEntry.key isSameAs firstResponder && firstResponder isNotSameAs modifierCode -> {
+            currentEntry.key isSameAs modifierCode -> {
                 multiplier
             }
             else -> {

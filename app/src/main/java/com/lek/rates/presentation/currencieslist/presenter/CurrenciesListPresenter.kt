@@ -40,30 +40,39 @@ class CurrenciesListPresenter @ViewModelInject constructor(
         pollItems()
     }
 
-    private fun displayListItems() = networkAvailabilityRelay.get()
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe({
-            if (it) {
-                displayRateList()
-            } else {
-                view()?.showNetworkError(ErrorMessage.noNetworkError)
-            }
-        }, {
-            Log.e("ERROR", "$it")
-            handleError(it)
-        })
+    private fun displayListItems() {
+        addDisposable(
+            networkAvailabilityRelay.get()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    if (it) {
+                        displayRateList()
+                    } else {
+                        view()?.showNetworkError(ErrorMessage.noNetworkError)
+                    }
+                }, {
+                    Log.e("ERROR", "$it")
+                    handleError(it)
+                })
+        )
+    }
 
-    private fun pollItems() = networkAvailabilityRelay.get()
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe({
-            if (it) {
-                pollCurrencies()
-            } else {
-                view()?.showNetworkError(ErrorMessage.noNetworkError)
-            }
-        }, {
-            handleError(it)
-        })
+    private fun pollItems() {
+        clearDisposable()
+        addDisposable(
+            networkAvailabilityRelay.get()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    if (it) {
+                        pollCurrencies()
+                    } else {
+                        view()?.showNetworkError(ErrorMessage.noNetworkError)
+                    }
+                }, {
+                    handleError(it)
+                })
+        )
+    }
 
     private fun displayRateList() {
         addDisposable(
@@ -71,19 +80,21 @@ class CurrenciesListPresenter @ViewModelInject constructor(
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    showLoadingViewRelay.set(false)
-                    if (it.isEmpty()) {
-                        shouldShowEmptyStateRelay.set(true)
-                    } else {
-                        view()?.displayRate(it)
-                        shouldShowEmptyStateRelay.set(false)
-                    }
+                    showCurrencies(it)
                 }, {
-                    shouldShowEmptyStateRelay.set(false)
-                    showLoadingViewRelay.set(false)
                     handleError(it)
                 })
         )
+    }
+
+    private fun showCurrencies(it: List<Currency>) {
+        showLoadingViewRelay.set(false)
+        if (it.isEmpty()) {
+            shouldShowEmptyStateRelay.set(true)
+        } else {
+            view()?.displayRate(it)
+            shouldShowEmptyStateRelay.set(false)
+        }
     }
 
     private fun pollCurrencies() {
@@ -99,7 +110,7 @@ class CurrenciesListPresenter @ViewModelInject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     if (it.liveUpdateEnabled) {
-                        view()?.displayRate(it.currencies)
+                        showCurrencies(it.currencies)
                     }
                 }, {
                     handleError(it)
@@ -108,6 +119,8 @@ class CurrenciesListPresenter @ViewModelInject constructor(
     }
 
     private fun handleError(it: Throwable) {
+        shouldShowEmptyStateRelay.set(false)
+        showLoadingViewRelay.set(false)
         if (it is NoNetworkException) {
             view()?.showNetworkError(it.message ?: ErrorMessage.defaultErrorMessage)
         } else {
