@@ -7,6 +7,7 @@ import com.lek.rates.core.exceptions.NoNetworkException
 import com.lek.rates.core.models.Currency
 import com.lek.rates.globals.ErrorMessage
 import com.lek.rates.globals.Interval
+import com.lek.rates.logger.Logger
 import com.lek.rates.presentation.currencieslist.interactors.CurrenciesPollingService
 import com.lek.rates.presentation.currencieslist.interactors.GetCanPublishLiveUpdateInteractor
 import com.lek.rates.presentation.currencieslist.interactors.GetCurrenciesInteractor
@@ -51,7 +52,6 @@ class CurrenciesListPresenter @ViewModelInject constructor(
                         view()?.showNetworkError(ErrorMessage.noNetworkError)
                     }
                 }, {
-                    Log.e("ERROR", "$it")
                     handleError(it)
                 })
         )
@@ -126,5 +126,6 @@ class CurrenciesListPresenter @ViewModelInject constructor(
         } else {
             view()?.showError(it.message ?: ErrorMessage.defaultErrorMessage)
         }
+        Logger.error(it)
     }
 }
