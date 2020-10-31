@@ -3,6 +3,7 @@ package com.lek.rates.presentation.currencieslist.presenter
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import com.lek.rates.core.base.BasePresenter
+import com.lek.rates.logger.Logger
 import com.lek.rates.presentation.currencieslist.stream.ShowEmptyStateRelay
 import com.lek.rates.presentation.currencieslist.stream.ShowLoadingViewRelay
 import com.lek.rates.presentation.currencieslist.view.MainView
@@ -24,7 +25,7 @@ class MainPresenter @ViewModelInject constructor(
             .subscribe({
                 view()?.showLoading(it)
             }, {
-                Log.e("Error", "${it.message}")
+                Logger.error(it)
             })
     }
 
@@ -34,7 +35,7 @@ class MainPresenter @ViewModelInject constructor(
                 view()?.showEmptyState(it)
             },
             {
-                Log.e("Error", "${it.message}")
+               Logger.error("EMPTY_STATE", "Error showing emtpy state ${it.message}")
             }
         )
     }

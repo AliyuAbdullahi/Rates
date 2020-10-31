@@ -19,3 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
+-keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
+-keepnames class org.conscrypt.ConscryptHostnameVerifier.*

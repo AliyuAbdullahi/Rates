@@ -25,6 +25,7 @@ import com.lek.rates.globals.EMPTY_STRING
 import com.lek.rates.globals.ErrorMessage
 import com.lek.rates.globals.Interval
 import com.lek.rates.globals.ZERO
+import com.lek.rates.logger.Logger
 import com.lek.rates.presentation.currencieslist.presenter.CurrenciesListPresenter
 import com.lek.rates.presentation.currencieslistitem.presenter.CurrenciesListItemPresenter
 import com.lek.rates.presentation.currencieslistitem.view.CurrenciesListItemView
@@ -155,12 +156,10 @@ class CurrenciesListView @JvmOverloads constructor(
                             ?.subscribe({ changedValue ->
                                 if (changedValue.keyboardOpened) {
                                     dispatched = true
-//                                    ExchangeRateEvaluator.value = if (changedValue.value.isEmpty()) 0.0 else changedValue.value.toDouble()
-//                                    ExchangeRateEvaluator.currencyCode = currency.currencyCode
                                     updateCurrencyValues(changedValue.value, currency)
                                 }
                             }, {
-                                Log.e("ERROR", "ERROR $it")
+                                Logger.error(it)
                             })
                     )
                 }
