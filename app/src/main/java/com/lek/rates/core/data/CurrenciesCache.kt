@@ -59,4 +59,10 @@ object CurrenciesCache {
         currencies.remove(currency)
         currencies.addFirst(currency)
     }
+
+    fun clear() {
+        currencies.clear()
+        cache.clear()
+        newItems.clear()
+    }
 }
