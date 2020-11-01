@@ -33,6 +33,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.math.BigDecimal
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -181,7 +182,7 @@ class CurrenciesListView @JvmOverloads constructor(
         currentCurrency: Currency,
         container: LinearLayout
     ) {
-        val multiplier = changedValue.toDouble() / currentCurrency.value
+        val multiplier = BigDecimal.valueOf(changedValue.toDouble()).div(BigDecimal(currentCurrency.value))
         for (index in 0 until container.childCount) {
             val map = mutableMapOf<String, Currency>()
             map.putAll(CurrenciesCache.getCache())
@@ -190,7 +191,7 @@ class CurrenciesListView @JvmOverloads constructor(
 
             if (currencyCode.equals(currentCurrency.currencyCode, true).not()) {
                 map[currencyCode]?.let { theCurrency ->
-                    theCurrency.value = (theCurrency.value * multiplier).toThreeDecimalPlace()
+                    theCurrency.value = (multiplier.multiply(BigDecimal(theCurrency.value))).toDouble().toThreeDecimalPlace()
                     currentView.findViewById<EditText>(R.id.currencyValue).setText(
                         context.getString(
                             R.string.currency_value,

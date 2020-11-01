@@ -6,6 +6,7 @@ import com.lek.rates.extensions.isNotSameAs
 import com.lek.rates.extensions.isSameAs
 import com.lek.rates.extensions.toThreeDecimalPlace
 import com.lek.rates.globals.ZERO
+import java.math.BigDecimal
 import java.util.Locale
 
 object CurrencyMapper {
@@ -29,7 +30,7 @@ object CurrencyMapper {
     ): Double {
         val modifierCode = ExchangeRateEvaluator.currencyCode
         val selectedExchangeRate = allEntries[ExchangeRateEvaluator.currencyCode] ?: ExchangeRateEvaluator.value
-        val multiplier = if (ExchangeRateEvaluator.value != 0.0) selectedExchangeRate / ExchangeRateEvaluator.value else FirstResponder.value
+        val multiplier = if (ExchangeRateEvaluator.value != 0.0) BigDecimal.valueOf(selectedExchangeRate.div(ExchangeRateEvaluator.value)) else BigDecimal.valueOf(FirstResponder.value)
         return when {
             ExchangeRateEvaluator.hasNoValue() -> currentEntry.value
             ExchangeRateEvaluator.isBlank() -> ZERO
@@ -37,10 +38,10 @@ object CurrencyMapper {
                 ExchangeRateEvaluator.value
             }
             currentEntry.key isSameAs modifierCode -> {
-                multiplier
+                multiplier.toDouble()
             }
             else -> {
-                multiplier * currentEntry.value
+                multiplier.multiply(BigDecimal.valueOf(currentEntry.value)).toDouble()
             }
         }
     }
