@@ -34,6 +34,19 @@ Turn off animations on device settings before running instrumentation test.
 Instrumentation test files can be found in `/app/src/androidTest` directory.
 Here is a quick [guide](https://developer.android.com/training/testing/unit-testing/instrumented-unit-tests) on running instrumentation test.
 
+## Release
+To build a release version of Rates application, update `gradle.properties` file with this
+
+```
+RELEASE_STORE_FILE=(path to release store file)
+RELEASE_STORE_PASSWORD=*****
+RELEASE_KEY_ALIAS=*****
+RELEASE_KEY_PASSWORD=*******
+
+```
+
+Fill the above as required.
+
 ## Architecture
 
 Model View Presenter architecture was chosen to build **Rates** app. 
