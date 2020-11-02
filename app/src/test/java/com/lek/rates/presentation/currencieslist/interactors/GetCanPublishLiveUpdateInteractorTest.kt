@@ -45,7 +45,6 @@ internal class GetCanPublishLiveUpdateInteractorTest : BaseTest() {
         }
     }
 
-
     @ParameterizedTest
     @ValueSource(strings = ["true", "false"])
     fun `when view not scrolling - GetCanPublishLiveUpdateInteractor returns data`(viewScrolling: Boolean) {

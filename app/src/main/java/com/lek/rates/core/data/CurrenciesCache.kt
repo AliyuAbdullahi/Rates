@@ -2,12 +2,8 @@ package com.lek.rates.core.data
 
 import com.lek.rates.core.models.Currency
 import com.lek.rates.core.models.CurrencyMapper
-import com.lek.rates.core.models.ExchangeRateEvaluator
 import com.lek.rates.core.models.FirstResponder
-import com.lek.rates.extensions.isNotSameAs
-import com.lek.rates.extensions.isSameAs
-import com.lek.rates.extensions.toThreeDecimalPlace
-import java.util.*
+import java.util.LinkedList
 
 object CurrenciesCache {
 
@@ -27,7 +23,7 @@ object CurrenciesCache {
             // load data first time
             currencies.addAll(cache.values)
         } else {
-            //attempt update existing values
+            // attempt update existing values
             currencies.forEach { currency ->
                 if (cache.keys.contains(currency.currencyCode)) {
                     cache[currency.currencyCode]?.let {
@@ -58,5 +54,11 @@ object CurrenciesCache {
         FirstResponder.firstResponder = currency.currencyCode
         currencies.remove(currency)
         currencies.addFirst(currency)
+    }
+
+    fun clear() {
+        currencies.clear()
+        cache.clear()
+        newItems.clear()
     }
 }

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "145709858176",
+    "firebase_url": "https://rates-a9680.firebaseio.com",
+    "project_id": "rates-a9680",
+    "storage_bucket": "rates-a9680.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:145709858176:android:e65bffdbb652f489159565",
+        "android_client_info": {
+          "package_name": "com.lek.rates"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "145709858176-9o10jh0755ohoelcihqrnk0b000mormc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lek.rates",
+            "certificate_hash": "26cdfa5276d11b1498b34024472adfb19562af11"
+          }
+        },
+        {
+          "client_id": "145709858176-s39330rjj3oogkh64qug1681uvrpdjf3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2fHG9Dt0Ly56fZXtWltyOJasXHxRjvdA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "145709858176-s39330rjj3oogkh64qug1681uvrpdjf3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

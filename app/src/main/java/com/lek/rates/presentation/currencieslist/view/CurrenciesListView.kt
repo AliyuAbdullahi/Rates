@@ -2,7 +2,6 @@ package com.lek.rates.presentation.currencieslist.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -18,13 +17,12 @@ import com.lek.rates.R
 import com.lek.rates.core.data.CurrenciesCache
 import com.lek.rates.core.models.Currency
 import com.lek.rates.core.models.ExchangeRateEvaluator
-import com.lek.rates.core.models.FirstResponder
-import com.lek.rates.extensions.isNotSameAs
 import com.lek.rates.extensions.toThreeDecimalPlace
 import com.lek.rates.globals.EMPTY_STRING
 import com.lek.rates.globals.ErrorMessage
 import com.lek.rates.globals.Interval
 import com.lek.rates.globals.ZERO
+import com.lek.rates.logger.Logger
 import com.lek.rates.presentation.currencieslist.presenter.CurrenciesListPresenter
 import com.lek.rates.presentation.currencieslistitem.presenter.CurrenciesListItemPresenter
 import com.lek.rates.presentation.currencieslistitem.view.CurrenciesListItemView
@@ -32,7 +30,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import java.util.*
+import java.math.BigDecimal
+import java.util.LinkedList
 import java.util.concurrent.TimeUnit
 
 private const val DELAY_MILLIS = 100L
@@ -155,12 +154,10 @@ class CurrenciesListView @JvmOverloads constructor(
                             ?.subscribe({ changedValue ->
                                 if (changedValue.keyboardOpened) {
                                     dispatched = true
-//                                    ExchangeRateEvaluator.value = if (changedValue.value.isEmpty()) 0.0 else changedValue.value.toDouble()
-//                                    ExchangeRateEvaluator.currencyCode = currency.currencyCode
                                     updateCurrencyValues(changedValue.value, currency)
                                 }
                             }, {
-                                Log.e("ERROR", "ERROR $it")
+                                Logger.error(it)
                             })
                     )
                 }
@@ -182,7 +179,7 @@ class CurrenciesListView @JvmOverloads constructor(
         currentCurrency: Currency,
         container: LinearLayout
     ) {
-        val multiplier = changedValue.toDouble() / currentCurrency.value
+        val multiplier = BigDecimal.valueOf(changedValue.toDouble()).div(BigDecimal(currentCurrency.value))
         for (index in 0 until container.childCount) {
             val map = mutableMapOf<String, Currency>()
             map.putAll(CurrenciesCache.getCache())
@@ -191,7 +188,7 @@ class CurrenciesListView @JvmOverloads constructor(
 
             if (currencyCode.equals(currentCurrency.currencyCode, true).not()) {
                 map[currencyCode]?.let { theCurrency ->
-                    theCurrency.value = (theCurrency.value * multiplier).toThreeDecimalPlace()
+                    theCurrency.value = (multiplier.multiply(BigDecimal(theCurrency.value))).toDouble().toThreeDecimalPlace()
                     currentView.findViewById<EditText>(R.id.currencyValue).setText(
                         context.getString(
                             R.string.currency_value,

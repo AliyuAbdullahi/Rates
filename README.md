@@ -2,7 +2,7 @@
 Rates is a currency rate conversion application with the ability to
 * Display live currencies and associated value at interval realtime.
 * Select First Responder (A reference to which other currencies are valued).
-* Live Editing (A binding-editing property that allows a single field edit to bind to other fields
+* Live Editing (A binding-editing property that allows a single field edit to bind to other fields)
 
 ## Demo
 Click on image below to watch video demo on youtube.
@@ -33,6 +33,27 @@ real device as Instrumentation test result can be flaky on emulator.
 Turn off animations on device settings before running instrumentation test.
 Instrumentation test files can be found in `/app/src/androidTest` directory.
 Here is a quick [guide](https://developer.android.com/training/testing/unit-testing/instrumented-unit-tests) on running instrumentation test.
+
+## Lint
+You can run lint check with `./gradlew ktlint` or on Android Studio right pannel, select Gradle, then navigate to
+`Rates -> Tasks -> formatting -> ktlintFormat` double-click ktlintFormat and **Ktlint** will run a format check on
+the entire project.
+
+
+![KtLint](files/ktlint.png)
+
+## Release
+To build a release version of Rates application, update `gradle.properties` file with this
+
+```
+RELEASE_STORE_FILE=(path to release store file)
+RELEASE_STORE_PASSWORD=*****
+RELEASE_KEY_ALIAS=*****
+RELEASE_KEY_PASSWORD=*******
+
+```
+
+Fill the above as required.
 
 ## Architecture
 
@@ -71,3 +92,4 @@ Rates application uses some dedicated tools for some specific operations.
 * *[RxRelay](https://github.com/JakeWharton/RxRelay)* -> Asynchronous stream
 * *[Mock Web Server](https://github.com/square/okhttp/tree/master/mockwebserver)* -> Mock response for Instrumentation testing
 * *[Mockk](https://github.com/mockk/mockk)* -> For mocking models in Unit testing
+* *[Ktlint](https://github.com/pinterest/ktlint)* -> For code format check

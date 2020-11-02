@@ -2,10 +2,10 @@ package com.lek.rates
 
 import android.util.Log
 import com.lek.rates.TestSchedulerFactory.testScheduler
-import io.mockk.MockKAnnotations
+import com.lek.rates.logger.Logger
 import io.mockk.every
+import io.mockk.MockKAnnotations
 import io.mockk.mockkStatic
-import io.mockk.verify
 import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import org.junit.AfterClass
@@ -40,6 +40,7 @@ abstract class BaseTest {
         fun setupTestScheduler() {
             MockKAnnotations.init(this)
             mockkStatic(Log::class)
+            mockkStatic(Logger::class)
             every { Log.e(any(), any()) } returns 0
             every { Log.d(any(), any()) } returns 0
             RxJavaPlugins.setInitIoSchedulerHandler { testScheduler }

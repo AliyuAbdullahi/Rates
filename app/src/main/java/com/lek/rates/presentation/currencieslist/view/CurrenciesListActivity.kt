@@ -9,19 +9,20 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.lek.rates.R
 import com.lek.rates.globals.ZERO
-import com.lek.rates.presentation.network.NetworkStatus
-import com.lek.rates.presentation.network.NetworkStatusListener
 import com.lek.rates.presentation.currencieslist.interactors.GetCanPublishLiveUpdateInteractor
-import com.lek.rates.presentation.currencieslistitem.presenter.CurrenciesListItemPresenter
 import com.lek.rates.presentation.currencieslist.presenter.CurrenciesListPresenter
 import com.lek.rates.presentation.currencieslist.presenter.MainPresenter
 import com.lek.rates.presentation.currencieslist.stream.KeyboardOpenedRelay
 import com.lek.rates.presentation.currencieslist.stream.NetworkAvailabilityRelay
 import com.lek.rates.presentation.currencieslist.stream.ViewScrollingRelay
+import com.lek.rates.presentation.currencieslistitem.presenter.CurrenciesListItemPresenter
 import com.lek.rates.presentation.helper.hideKeyboard
+import com.lek.rates.presentation.network.NetworkStatus
+import com.lek.rates.presentation.network.NetworkStatusListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_currencies_list.*
 import javax.inject.Inject
+
 private const val VIEW_HEIGHT_OFFSET = 100
 
 @AndroidEntryPoint
@@ -48,7 +49,6 @@ class CurrenciesListActivity : AppCompatActivity(), MainView, OnFlingListener,
 
     @Inject
     lateinit var networkStatus: NetworkStatus
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
