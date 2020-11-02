@@ -99,7 +99,7 @@ class CurrenciesListView @JvmOverloads constructor(
             val view = container.getChildAt(index) as CurrenciesListItemView
 
             // Remove Currency if no longer available
-            if (CurrenciesCache.getCache().containsKey(view.tag).not()) {
+            if (!CurrenciesCache.getCache().containsKey(view.tag)) {
                 container.removeView(view)
             } else {
                 CurrenciesCache.getCache()[view.tag]?.let {
@@ -139,7 +139,7 @@ class CurrenciesListView @JvmOverloads constructor(
         view.findViewById<EditText>(R.id.currencyValue).let { currentValueEditText ->
             currentValueEditText.setOnFocusChangeListener { view, hasFocus ->
                 var dispatched = false
-                if (hasFocus && dispatched.not()) {
+                if (hasFocus && !dispatched) {
                     disposable.clear()
                     disposable.add(
                         (view as EditText).textChanges()
@@ -186,7 +186,7 @@ class CurrenciesListView @JvmOverloads constructor(
             val currentView = container.getChildAt(index)
             val currencyCode = currentView.findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
 
-            if (currencyCode.equals(currentCurrency.currencyCode, true).not()) {
+            if (!currencyCode.equals(currentCurrency.currencyCode, true)) {
                 map[currencyCode]?.let { theCurrency ->
                     theCurrency.value = (multiplier.multiply(BigDecimal(theCurrency.value))).toDouble().toThreeDecimalPlace()
                     currentView.findViewById<EditText>(R.id.currencyValue).setText(
@@ -211,7 +211,7 @@ class CurrenciesListView @JvmOverloads constructor(
             val currentView = container.getChildAt(index)
             val currencyCode =
                 currentView.findViewById<TextView>(R.id.currencyAbbreviation).text.toString()
-            if (currencyCode.equals(currentCurrency.currencyCode, true).not()) {
+            if (!currencyCode.equals(currentCurrency.currencyCode, true)) {
                 currentView.findViewById<EditText>(R.id.currencyValue).setText(EMPTY_STRING)
             }
         }
@@ -249,7 +249,7 @@ class CurrenciesListView @JvmOverloads constructor(
     private lateinit var dialog: AlertDialog
     override fun showNetworkError(errorMessage: String) {
         if (this::dialog.isInitialized) {
-            if (dialog.isShowing.not()) {
+            if (!dialog.isShowing) {
                 createAndShowDialog(errorMessage)
             }
         } else {
