@@ -34,7 +34,7 @@ object CurrenciesCache {
 
             // Add new values if any
             cache.forEach {
-                if (oldCache.containsKey(it.key).not()) {
+                if (!oldCache.containsKey(it.key)) {
                     currencies.add(it.value)
                     newItems.add(it.value)
                 }
