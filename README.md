@@ -2,7 +2,7 @@
 Rates is a currency rate conversion application with the ability to
 * Display live currencies and associated value at interval realtime.
 * Select First Responder (A reference to which other currencies are valued).
-* Live Editing (A binding-editing property that allows a single field edit to bind to other fields
+* Live Editing (A binding-editing property that allows a single field edit to bind to other fields)
 
 ## Demo
 Click on image below to watch video demo on youtube.
