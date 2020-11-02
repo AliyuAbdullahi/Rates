@@ -3,7 +3,9 @@ package com.lek.rates
 import android.util.Log
 import com.lek.rates.TestSchedulerFactory.testScheduler
 import com.lek.rates.logger.Logger
-import io.mockk.*
+import io.mockk.every
+import io.mockk.MockKAnnotations
+import io.mockk.mockkStatic
 import io.reactivex.rxjava3.android.plugins.RxAndroidPlugins
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import org.junit.AfterClass

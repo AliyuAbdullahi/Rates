@@ -21,7 +21,7 @@ class CurrenciesListItemView @JvmOverloads constructor(
     val itemClicked: () -> Unit = {}
 ) : ConstraintLayout(context, attributeSet, defStyle), ListItemView,
     View.OnClickListener {
-    
+
     init {
         inflate(context, R.layout.view_list_item, this)
         findViewById<View>(R.id.itemSelector).setOnClickListener(this)

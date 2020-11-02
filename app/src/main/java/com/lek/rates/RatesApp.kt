@@ -8,7 +8,6 @@ import timber.log.Timber
 import timber.log.Timber.DebugTree
 import java.lang.ref.WeakReference
 
-
 @HiltAndroidApp
 class RatesApp : Application() {
 
@@ -26,7 +25,7 @@ class RatesApp : Application() {
         }
     }
 
-    companion object{
+    companion object {
         var contextRef: WeakReference<Context>? = null
     }
 }

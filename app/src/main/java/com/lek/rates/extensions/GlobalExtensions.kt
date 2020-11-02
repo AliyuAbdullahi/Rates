@@ -1,7 +1,6 @@
 package com.lek.rates.extensions
 
 import kotlin.math.floor
-import kotlin.math.roundToLong
 
 infix fun String.isSameAs(anotherString: String) = this.equals(anotherString, true)
 

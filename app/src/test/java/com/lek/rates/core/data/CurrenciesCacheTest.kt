@@ -3,10 +3,9 @@ package com.lek.rates.core.data
 import com.lek.rates.BaseTest
 import com.lek.rates.R
 import com.lek.rates.core.models.Currency
-import com.lek.rates.core.testutils.mockCurrenciesResponse
 import org.junit.jupiter.api.Test
 
-internal class CurrenciesCacheTest: BaseTest() {
+internal class CurrenciesCacheTest : BaseTest() {
 
     @Test
     fun `when CurrenciesCache is updated with currencies - it is cached for reuse`() {
@@ -32,7 +31,7 @@ internal class CurrenciesCacheTest: BaseTest() {
         assert(CurrenciesCache.get()[0].currencyCode == "USD")
     }
 
-  private fun currencies() = mutableMapOf(
+    private fun currencies() = mutableMapOf(
         "NGN" to 500.0,
         "USD" to 1.4,
         "EUR" to 1.0

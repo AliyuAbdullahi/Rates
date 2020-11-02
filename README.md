@@ -34,6 +34,14 @@ Turn off animations on device settings before running instrumentation test.
 Instrumentation test files can be found in `/app/src/androidTest` directory.
 Here is a quick [guide](https://developer.android.com/training/testing/unit-testing/instrumented-unit-tests) on running instrumentation test.
 
+## Lint
+You can run lint check with `./gradlew ktlint` or on Android Studio right pannel, select Gradle, then navigate to
+`Rates -> Tasks -> formatting -> ktlintFormat` double-click ktlintFormat and **Ktlint** will run a format check on
+the entire project.
+
+
+![KtLint](files/ktlint.png)
+
 ## Release
 To build a release version of Rates application, update `gradle.properties` file with this
 
@@ -84,3 +92,4 @@ Rates application uses some dedicated tools for some specific operations.
 * *[RxRelay](https://github.com/JakeWharton/RxRelay)* -> Asynchronous stream
 * *[Mock Web Server](https://github.com/square/okhttp/tree/master/mockwebserver)* -> Mock response for Instrumentation testing
 * *[Mockk](https://github.com/mockk/mockk)* -> For mocking models in Unit testing
+* *[Ktlint](https://github.com/pinterest/ktlint)* -> For code format check

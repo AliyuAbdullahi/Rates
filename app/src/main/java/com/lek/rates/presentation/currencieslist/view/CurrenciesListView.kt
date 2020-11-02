@@ -2,7 +2,6 @@ package com.lek.rates.presentation.currencieslist.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -18,8 +17,6 @@ import com.lek.rates.R
 import com.lek.rates.core.data.CurrenciesCache
 import com.lek.rates.core.models.Currency
 import com.lek.rates.core.models.ExchangeRateEvaluator
-import com.lek.rates.core.models.FirstResponder
-import com.lek.rates.extensions.isNotSameAs
 import com.lek.rates.extensions.toThreeDecimalPlace
 import com.lek.rates.globals.EMPTY_STRING
 import com.lek.rates.globals.ErrorMessage
@@ -34,7 +31,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.math.BigDecimal
-import java.util.*
+import java.util.LinkedList
 import java.util.concurrent.TimeUnit
 
 private const val DELAY_MILLIS = 100L

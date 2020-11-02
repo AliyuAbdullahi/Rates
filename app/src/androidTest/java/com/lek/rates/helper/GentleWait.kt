@@ -16,7 +16,7 @@ class GentleWait(
     private val timeoutInSeconds: Long = DEFAULT_TIMEOUT,
     private val intervalInMillis: Long = DEFAULT_WAIT_IN_MILLIS,
     private val timeUnit: TimeUnit = TimeUnit.MILLISECONDS
-): Wait {
+) : Wait {
 
     override fun <T> until(isTrue: () -> T): T {
         var lastException: Throwable?
