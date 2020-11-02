@@ -1,6 +1,5 @@
 package com.lek.rates.presentation.currencieslist.presenter
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import com.lek.rates.core.base.BasePresenter
 import com.lek.rates.core.exceptions.NoNetworkException

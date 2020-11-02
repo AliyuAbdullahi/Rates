@@ -4,7 +4,12 @@ import com.lek.rates.BaseTest
 import com.lek.rates.presentation.currencieslist.stream.ShowEmptyStateRelay
 import com.lek.rates.presentation.currencieslist.stream.ShowLoadingViewRelay
 import com.lek.rates.presentation.currencieslist.view.MainView
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.just
+import io.mockk.runs
+import io.mockk.spyk
+import io.mockk.verify
 import io.reactivex.rxjava3.core.Observable
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource

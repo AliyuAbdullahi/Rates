@@ -10,7 +10,7 @@ import io.mockk.mockkStatic
 import io.reactivex.rxjava3.core.Observable
 import org.junit.jupiter.api.Test
 
-internal class GetCurrenciesInteractorTest: BaseTest(){
+internal class GetCurrenciesInteractorTest : BaseTest() {
 
     @Test
     fun `when GetRatesInteractor is invoked - available Currencies from repository can be observed`() {

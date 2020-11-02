@@ -87,7 +87,6 @@ class CurrenciesListActivityTest {
                 .closeKeyboard()
                 .changeCurrencyValueForCurrencyAt(0, "")
         }
-
     }
 
     @After

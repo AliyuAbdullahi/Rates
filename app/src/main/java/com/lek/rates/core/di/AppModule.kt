@@ -9,7 +9,11 @@ import com.lek.rates.core.api.services.CurrenciesService
 import com.lek.rates.core.services.INetworkService
 import com.lek.rates.core.services.NetworkService
 import com.lek.rates.globals.Interval.VERY_SHORT
-import com.lek.rates.presentation.currencieslist.stream.*
+import com.lek.rates.presentation.currencieslist.stream.KeyboardOpenedRelay
+import com.lek.rates.presentation.currencieslist.stream.ShowEmptyStateRelay
+import com.lek.rates.presentation.currencieslist.stream.ShowLoadingViewRelay
+import com.lek.rates.presentation.currencieslist.stream.NetworkAvailabilityRelay
+import com.lek.rates.presentation.currencieslist.stream.ViewScrollingRelay
 import com.lek.rates.presentation.network.NetworkStatus
 import dagger.Module
 import dagger.Provides

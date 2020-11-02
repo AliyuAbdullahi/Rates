@@ -1,6 +1,5 @@
 package com.lek.rates.presentation.currencieslist.presenter
 
-import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import com.lek.rates.core.base.BasePresenter
 import com.lek.rates.logger.Logger
@@ -30,12 +29,12 @@ class MainPresenter @ViewModelInject constructor(
     }
 
     private fun observeShowEmptyState() {
-        shouldShowEmptyStateRelay.get().observeOn(AndroidSchedulers.mainThread()).subscribe (
+        shouldShowEmptyStateRelay.get().observeOn(AndroidSchedulers.mainThread()).subscribe(
             {
                 view()?.showEmptyState(it)
             },
             {
-               Logger.error("EMPTY_STATE", "Error showing emtpy state ${it.message}")
+                Logger.error("EMPTY_STATE", "Error showing emtpy state ${it.message}")
             }
         )
     }

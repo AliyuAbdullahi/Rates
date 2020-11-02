@@ -11,8 +11,15 @@ import com.lek.rates.presentation.currencieslist.stream.NetworkAvailabilityRelay
 import com.lek.rates.presentation.currencieslist.stream.ShowEmptyStateRelay
 import com.lek.rates.presentation.currencieslist.stream.ShowLoadingViewRelay
 import com.lek.rates.presentation.currencieslist.view.ListView
-import io.mockk.*
+import io.mockk.mockkStatic
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.just
+import io.mockk.runs
+import io.mockk.spyk
+import io.mockk.verify
 import io.reactivex.rxjava3.core.Observable
+import org.hamcrest.CoreMatchers.any
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -48,7 +55,7 @@ internal class CurrenciesCurrenciesListPresenterTest : BaseTest() {
         every { getCurrenciesInteractor() } answers { Observable.just(currencies) }
         every { pollingService() } answers { Observable.just(currencies) }
         mockStreams()
-        every { networkAvailabilityRelay.get() } answers {Observable.just(isNetworkAvailable) }
+        every { networkAvailabilityRelay.get() } answers { Observable.just(isNetworkAvailable) }
         every { presenter.view() } returns view
         presenter.onStart()
         triggerActions()
@@ -59,7 +66,7 @@ internal class CurrenciesCurrenciesListPresenterTest : BaseTest() {
             verify { shouldShowEmptyStateRelay.set(false) }
             verify(exactly = 0) { view.showError(any()) }
         } else {
-            verify (exactly = 0) { view.displayRate(currencies) }
+            verify(exactly = 0) { view.displayRate(currencies) }
         }
     }
 
@@ -99,7 +106,7 @@ internal class CurrenciesCurrenciesListPresenterTest : BaseTest() {
     private fun mockStreams() {
         every { shouldShowEmptyStateRelay.get() } answers { Observable.just(false) }
         every { showLoadingViewRelay.get() } answers { Observable.just(false) }
-        every { networkAvailabilityRelay.get() } answers {Observable.just(true) }
+        every { networkAvailabilityRelay.get() } answers { Observable.just(true) }
         every { showLoadingViewRelay.set(any()) } just runs
         every { shouldShowEmptyStateRelay.set(any()) } just runs
     }

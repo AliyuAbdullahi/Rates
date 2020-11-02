@@ -50,7 +50,6 @@ class CurrenciesListActivity : AppCompatActivity(), MainView, OnFlingListener,
     @Inject
     lateinit var networkStatus: NetworkStatus
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_currencies_list)

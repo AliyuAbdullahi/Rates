@@ -6,7 +6,7 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import dagger.hilt.android.qualifiers.ApplicationContext
 
-class NetworkService(@ApplicationContext val context: Context): INetworkService {
+class NetworkService(@ApplicationContext val context: Context) : INetworkService {
 
     override fun isConnected(): Boolean {
         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
